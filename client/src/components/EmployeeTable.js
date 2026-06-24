@@ -15,6 +15,7 @@ import {
 import employeeService from "../middleware/employeeService";
 import SearchBar from "./SearchBar";
 import DateRangeFilter from "./DateRangeFilter";
+import SalaryFilter from "./SalaryFilter";
 import EmployeeRow from "./EmployeeRow";
 
 const headerCellSx = { color: "white", fontWeight: "bold" };
@@ -26,6 +27,9 @@ const EmployeeTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [minSalary, setMinSalary] = useState("");
+  const [maxSalary, setMaxSalary] = useState("");
+  const [currency, setCurrency] = useState("All");
   const isInitialLoad = useRef(true);
 
   const fetchEmployees = useCallback(() => {
@@ -38,6 +42,9 @@ const EmployeeTable = () => {
     if (searchTerm) params.search = searchTerm;
     if (fromDate) params.fromDate = fromDate;
     if (toDate) params.toDate = toDate;
+    if (currency && currency !== "All") params.currency = currency;
+    if (minSalary) params.minSalary = minSalary;
+    if (maxSalary) params.maxSalary = maxSalary;
 
     employeeService
       .getAll(params)
@@ -47,7 +54,7 @@ const EmployeeTable = () => {
         setLoading(false);
         isInitialLoad.current = false;
       });
-  }, [searchTerm, fromDate, toDate]);
+  }, [searchTerm, fromDate, toDate, currency, minSalary, maxSalary]);
 
   useEffect(() => {
     if (isInitialLoad.current) {
@@ -78,6 +85,14 @@ const EmployeeTable = () => {
     );
   }
 
+  const handleCurrencyChange = (value) => {
+    setCurrency(value);
+    if (value === "All") {
+      setMinSalary("");
+      setMaxSalary("");
+    }
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
@@ -91,6 +106,15 @@ const EmployeeTable = () => {
         toDate={toDate}
         onFromDateChange={setFromDate}
         onToDateChange={setToDate}
+      />
+
+      <SalaryFilter
+        currency={currency}
+        minSalary={minSalary}
+        maxSalary={maxSalary}
+        onCurrencyChange={handleCurrencyChange}
+        onMinSalaryChange={setMinSalary}
+        onMaxSalaryChange={setMaxSalary}
       />
 
       <TableContainer component={Paper} elevation={3}>

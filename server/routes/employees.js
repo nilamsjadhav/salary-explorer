@@ -7,6 +7,7 @@ function getAllEmployees(req, res) {
     const {
       search,
       department,
+      currency,
       minSalary,
       maxSalary,
       fromDate,
@@ -28,6 +29,11 @@ function getAllEmployees(req, res) {
     if (department) {
       conditions.push("department = @department");
       params.department = department;
+    }
+
+    if (currency) {
+      conditions.push("currency = @currency");
+      params.currency = currency;
     }
 
     if (minSalary) {

@@ -6,6 +6,7 @@ const employeeService = {
 
     if (params.search) query.set("search", params.search);
     if (params.department) query.set("department", params.department);
+    if (params.currency) query.set("currency", params.currency);
     if (params.minSalary) query.set("minSalary", params.minSalary);
     if (params.maxSalary) query.set("maxSalary", params.maxSalary);
     if (params.fromDate) query.set("fromDate", params.fromDate);

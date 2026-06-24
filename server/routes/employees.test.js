@@ -67,6 +67,17 @@ describe("getAllEmployees", () => {
     });
   });
 
+  it("should filter by currency", () => {
+    const { req, res } = mockReqRes({ currency: "USD" });
+    getAllEmployees(req, res);
+
+    const result = res.json.mock.calls[0][0];
+    expect(result.totalRecords).toBeGreaterThan(0);
+    result.data.forEach((emp) => {
+      expect(emp.currency).toBe("USD");
+    });
+  });
+
   it("should filter by salary range", () => {
     const { req, res } = mockReqRes({ minSalary: "1000000", maxSalary: "3000000" });
     getAllEmployees(req, res);
