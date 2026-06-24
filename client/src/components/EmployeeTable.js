@@ -25,6 +25,8 @@ const EmployeeTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   useEffect(() => {
     employeeService
@@ -36,14 +38,18 @@ const EmployeeTable = () => {
 
   const filteredEmployees = employees.filter((emp) => {
     const term = searchTerm.toLowerCase();
-    return (
+    const matchesSearch =
       emp.employeeId.toLowerCase().includes(term) ||
       emp.name.toLowerCase().includes(term) ||
       emp.department.toLowerCase().includes(term) ||
       emp.designation.toLowerCase().includes(term) ||
       emp.location.toLowerCase().includes(term) ||
-      emp.country.toLowerCase().includes(term)
-    );
+      emp.country.toLowerCase().includes(term);
+
+    const matchesFromDate = !fromDate || emp.joiningDate >= fromDate;
+    const matchesToDate = !toDate || emp.joiningDate <= toDate;
+
+    return matchesSearch && matchesFromDate && matchesToDate;
   });
 
   if (loading) {
@@ -83,6 +89,25 @@ const EmployeeTable = () => {
           ),
         }}
       />
+
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <TextField
+          label="From Date"
+          type="date"
+          value={fromDate}
+          onChange={(e) => setFromDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          sx={{ width: 200 }}
+        />
+        <TextField
+          label="To Date"
+          type="date"
+          value={toDate}
+          onChange={(e) => setToDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          sx={{ width: 200 }}
+        />
+      </Box>
 
       <TableContainer component={Paper} elevation={3}>
         <Table>

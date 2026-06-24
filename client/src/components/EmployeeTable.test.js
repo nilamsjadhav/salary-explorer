@@ -225,4 +225,51 @@ describe("EmployeeTable", () => {
 
     expect(screen.getByText("John Smith")).toBeInTheDocument();
   });
+
+  it("should filter employees by from date", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const fromInput = screen.getByLabelText("From Date");
+    fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
+
+    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
+    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+  });
+
+  it("should filter employees by to date", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const toInput = screen.getByLabelText("To Date");
+    fireEvent.change(toInput, { target: { value: "2021-12-31" } });
+
+    expect(screen.getByText("John Smith")).toBeInTheDocument();
+    expect(screen.queryByText("Sarah Johnson")).not.toBeInTheDocument();
+  });
+
+  it("should filter employees by date range", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const fromInput = screen.getByLabelText("From Date");
+    const toInput = screen.getByLabelText("To Date");
+    fireEvent.change(fromInput, { target: { value: "2021-01-01" } });
+    fireEvent.change(toInput, { target: { value: "2021-12-31" } });
+
+    expect(screen.getByText("John Smith")).toBeInTheDocument();
+    expect(screen.queryByText("Sarah Johnson")).not.toBeInTheDocument();
+  });
 });
