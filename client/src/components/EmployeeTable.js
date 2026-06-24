@@ -11,14 +11,15 @@ import {
   CircularProgress,
   Alert,
   Box,
-  Chip,
-  TextField,
-  InputAdornment,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import employeeService from "../middleware/employeeService";
-import { departmentColors } from "../constants/departmentColors";
-import { formatSalary, formatDate } from "../utils/formatters";
+import SearchBar from "./SearchBar";
+import DateRangeFilter from "./DateRangeFilter";
+import EmployeeRow from "./EmployeeRow";
+
+const SEARCHABLE_FIELDS = ["employeeId", "name", "department", "designation", "location", "country"];
+
+const headerCellSx = { color: "white", fontWeight: "bold" };
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -38,13 +39,9 @@ const EmployeeTable = () => {
 
   const filteredEmployees = employees.filter((emp) => {
     const term = searchTerm.toLowerCase();
-    const matchesSearch =
-      emp.employeeId.toLowerCase().includes(term) ||
-      emp.name.toLowerCase().includes(term) ||
-      emp.department.toLowerCase().includes(term) ||
-      emp.designation.toLowerCase().includes(term) ||
-      emp.location.toLowerCase().includes(term) ||
-      emp.country.toLowerCase().includes(term);
+    const matchesSearch = SEARCHABLE_FIELDS.some((field) =>
+      emp[field].toLowerCase().includes(term)
+    );
 
     const matchesFromDate = !fromDate || emp.joiningDate >= fromDate;
     const matchesToDate = !toDate || emp.joiningDate <= toDate;
@@ -74,53 +71,27 @@ const EmployeeTable = () => {
         Employee Directory
       </Typography>
 
-      <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="Search by name, department, designation, location or country..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        sx={{ mb: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
-      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-        <TextField
-          label="From Date"
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          sx={{ width: 200 }}
-        />
-        <TextField
-          label="To Date"
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          sx={{ width: 200 }}
-        />
-      </Box>
+      <DateRangeFilter
+        fromDate={fromDate}
+        toDate={toDate}
+        onFromDateChange={setFromDate}
+        onToDateChange={setToDate}
+      />
 
       <TableContainer component={Paper} elevation={3}>
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: "primary.main" }}>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Employee ID</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Name</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Department</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Designation</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Location</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Country</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Joining Date</TableCell>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Salary</TableCell>
+              <TableCell sx={headerCellSx}>Employee ID</TableCell>
+              <TableCell sx={headerCellSx}>Name</TableCell>
+              <TableCell sx={headerCellSx}>Department</TableCell>
+              <TableCell sx={headerCellSx}>Designation</TableCell>
+              <TableCell sx={headerCellSx}>Location</TableCell>
+              <TableCell sx={headerCellSx}>Country</TableCell>
+              <TableCell sx={headerCellSx}>Joining Date</TableCell>
+              <TableCell sx={headerCellSx} align="right">Salary</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -132,22 +103,7 @@ const EmployeeTable = () => {
               </TableRow>
             ) : (
               filteredEmployees.map((emp) => (
-                <TableRow key={emp.employeeId} hover>
-                  <TableCell>{emp.employeeId}</TableCell>
-                  <TableCell>{emp.name}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={emp.department}
-                      color={departmentColors[emp.department] || "default"}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell>{emp.designation}</TableCell>
-                  <TableCell>{emp.location}</TableCell>
-                  <TableCell>{emp.country}</TableCell>
-                  <TableCell>{formatDate(emp.joiningDate)}</TableCell>
-                  <TableCell align="right">{formatSalary(emp.salary, emp.currency)}</TableCell>
-                </TableRow>
+                <EmployeeRow key={emp.employeeId} employee={emp} />
               ))
             )}
           </TableBody>
