@@ -1,18 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-const employees = require("./data/employees.json");
-
-const app = express();
-
-app.use(cors());
-
-app.get("/api/employees", (req, res) => {
-  res.json(employees);
-});
+const { getDb, closeDb } = require("./db");
+const { seed } = require("./seed");
+const app = require("./app");
 
 if (require.main === module) {
-  app.listen(5000, () => {
-    console.log("Server running on port 5000");
+  try {
+    getDb();
+    seed();
+    app.listen(5000, () => {
+      console.log("Server running on port 5000");
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err.message);
+    process.exit(1);
+  }
+
+  process.on("SIGINT", () => {
+    closeDb();
+    process.exit(0);
   });
 }
 
