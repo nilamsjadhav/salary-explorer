@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('should display welcome message', () => {
+test('should display Salary Explorer heading', () => {
   render(<App />);
-  const message = screen.getByText(/Welcome to Salary Explorer/i);
-  expect(message).toBeInTheDocument();
+  const heading = screen.getByText(/Salary Explorer/i);
+  expect(heading).toBeInTheDocument();
 });

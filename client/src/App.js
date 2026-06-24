@@ -1,9 +1,15 @@
-import './App.css';
+import EmployeeTable from './components/EmployeeTable';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
 function App() {
   return (
     <div>
-     Welcome to Salary Explorer
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">Salary Explorer</Typography>
+        </Toolbar>
+      </AppBar>
+      <EmployeeTable />
     </div>
   );
 }
