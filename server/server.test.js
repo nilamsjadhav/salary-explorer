@@ -29,12 +29,13 @@ describe("GET /api/employees", () => {
 
   it("should return all 12 employees", async () => {
     const res = await request(app).get("/api/employees");
-    expect(res.body).toHaveLength(12);
+    expect(res.body.data).toHaveLength(12);
+    expect(res.body.totalRecords).toBe(12);
   });
 
   it("should return employees with correct structure", async () => {
     const res = await request(app).get("/api/employees");
-    const employee = res.body[0];
+    const employee = res.body.data[0];
     expect(employee).toHaveProperty("employeeId");
     expect(employee).toHaveProperty("name");
     expect(employee).toHaveProperty("department");

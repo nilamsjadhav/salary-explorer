@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -17,8 +17,6 @@ import SearchBar from "./SearchBar";
 import DateRangeFilter from "./DateRangeFilter";
 import EmployeeRow from "./EmployeeRow";
 
-const SEARCHABLE_FIELDS = ["employeeId", "name", "department", "designation", "location", "country"];
-
 const headerCellSx = { color: "white", fontWeight: "bold" };
 
 const EmployeeTable = () => {
@@ -28,26 +26,41 @@ const EmployeeTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const isInitialLoad = useRef(true);
+
+  const fetchEmployees = useCallback(() => {
+    if (isInitialLoad.current) {
+      setLoading(true);
+    }
+    setError(null);
+
+    const params = {};
+    if (searchTerm) params.search = searchTerm;
+    if (fromDate) params.fromDate = fromDate;
+    if (toDate) params.toDate = toDate;
+
+    employeeService
+      .getAll(params)
+      .then((response) => setEmployees(response?.data || []))
+      .catch((err) => setError(err.message))
+      .finally(() => {
+        setLoading(false);
+        isInitialLoad.current = false;
+      });
+  }, [searchTerm, fromDate, toDate]);
 
   useEffect(() => {
-    employeeService
-      .getAll()
-      .then((data) => setEmployees(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+    if (isInitialLoad.current) {
+      fetchEmployees();
+      return;
+    }
 
-  const filteredEmployees = employees.filter((emp) => {
-    const term = searchTerm.toLowerCase();
-    const matchesSearch = SEARCHABLE_FIELDS.some((field) =>
-      emp[field].toLowerCase().includes(term)
-    );
+    const debounceTimer = setTimeout(() => {
+      fetchEmployees();
+    }, 300);
 
-    const matchesFromDate = !fromDate || emp.joiningDate >= fromDate;
-    const matchesToDate = !toDate || emp.joiningDate <= toDate;
-
-    return matchesSearch && matchesFromDate && matchesToDate;
-  });
+    return () => clearTimeout(debounceTimer);
+  }, [fetchEmployees]);
 
   if (loading) {
     return (
@@ -95,14 +108,14 @@ const EmployeeTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredEmployees.length === 0 ? (
+            {employees.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={8} align="center">
                   No employees found matching "{searchTerm}"
                 </TableCell>
               </TableRow>
             ) : (
-              filteredEmployees.map((emp) => (
+              employees.map((emp) => (
                 <EmployeeRow key={emp.employeeId} employee={emp} />
               ))
             )}

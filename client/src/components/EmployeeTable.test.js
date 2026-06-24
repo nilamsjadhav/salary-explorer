@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
 import EmployeeTable from "./EmployeeTable";
 import employeeService from "../middleware/employeeService";
 
@@ -29,6 +29,8 @@ const mockEmployees = [
   },
 ];
 
+const mockResponse = { data: mockEmployees, page: 1, pageSize: 20, totalRecords: 2, totalPages: 1 };
+
 describe("EmployeeTable", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -41,7 +43,7 @@ describe("EmployeeTable", () => {
   });
 
   it("should display employee data after loading", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+    employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
@@ -51,7 +53,7 @@ describe("EmployeeTable", () => {
   });
 
   it("should display the Employee Directory heading", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+    employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
@@ -71,7 +73,7 @@ describe("EmployeeTable", () => {
   });
 
   it("should not show loading spinner after data loads", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+    employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
@@ -79,49 +81,56 @@ describe("EmployeeTable", () => {
     });
   });
 
-  it("should filter employees by search term", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+  it("should call API with search param when searching", async () => {
+    employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
       expect(screen.getByText("John Smith")).toBeInTheDocument();
     });
+
+    const filteredResponse = { data: [mockEmployees[1]], page: 1, pageSize: 20, totalRecords: 1, totalPages: 1 };
+    employeeService.getAll.mockResolvedValue(filteredResponse);
 
     const searchInput = screen.getByPlaceholderText(/search/i);
-    fireEvent.change(searchInput, { target: { value: "Sarah" } });
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: "Sarah" } });
+    });
 
-    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
-    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(employeeService.getAll).toHaveBeenCalledWith({ search: "Sarah" });
+    });
   });
 
-  it("should filter employees by date range", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+  it("should call API with date params when filtering by date", async () => {
+    employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
       expect(screen.getByText("John Smith")).toBeInTheDocument();
     });
+
+    employeeService.getAll.mockResolvedValue(mockResponse);
 
     const fromInput = screen.getByLabelText("From Date");
-    const toInput = screen.getByLabelText("To Date");
-    fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
-    fireEvent.change(toInput, { target: { value: "2023-01-01" } });
+    await act(async () => {
+      fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
+    });
 
-    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
-    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(employeeService.getAll).toHaveBeenCalledWith(
+        expect.objectContaining({ fromDate: "2022-01-01" })
+      );
+    });
   });
 
-  it("should show no results message when no matches", async () => {
-    employeeService.getAll.mockResolvedValue(mockEmployees);
+  it("should show no results message when API returns empty", async () => {
+    const emptyResponse = { data: [], page: 1, pageSize: 20, totalRecords: 0, totalPages: 0 };
+    employeeService.getAll.mockResolvedValue(emptyResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
-      expect(screen.getByText("John Smith")).toBeInTheDocument();
+      expect(screen.getByText(/No employees found/i)).toBeInTheDocument();
     });
-
-    const searchInput = screen.getByPlaceholderText(/search/i);
-    fireEvent.change(searchInput, { target: { value: "xyz123" } });
-
-    expect(screen.getByText(/No employees found/i)).toBeInTheDocument();
   });
 });

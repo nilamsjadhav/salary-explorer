@@ -24,7 +24,8 @@ describe("app.js", () => {
   it("should mount GET /api/employees route", async () => {
     const res = await request(app).get("/api/employees");
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveLength(12);
+    expect(res.body).toHaveProperty("data");
+    expect(res.body).toHaveProperty("totalRecords", 12);
   });
 
   it("should return 404 for unknown routes", async () => {
