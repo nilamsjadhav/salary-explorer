@@ -1,7 +1,17 @@
-export function formatSalary(amount) {
-  return new Intl.NumberFormat("en-IN", {
+const currencyLocaleMap = {
+  INR: "en-IN",
+  USD: "en-US",
+  GBP: "en-GB",
+  EUR: "de-DE",
+  JPY: "ja-JP",
+  AUD: "en-AU",
+};
+
+export function formatSalary(amount, currency = "INR") {
+  const locale = currencyLocaleMap[currency] || "en-US";
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "INR",
+    currency,
     maximumFractionDigits: 0,
   }).format(amount);
 }

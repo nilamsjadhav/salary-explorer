@@ -5,6 +5,8 @@
     "department": "Engineering",
     "designation": "Senior Engineer",
     "location": "Pune",
+    "country": "India",
+    "currency": "INR",
     "joiningDate": "2021-03-15",
     "salary": 1800000
   },
@@ -13,18 +15,22 @@
     "name": "Sarah Johnson",
     "department": "Engineering",
     "designation": "Lead Engineer",
-    "location": "Bangalore",
+    "location": "San Francisco",
+    "country": "USA",
+    "currency": "USD",
     "joiningDate": "2019-07-10",
-    "salary": 2500000
+    "salary": 185000
   },
   {
     "employeeId": "EMP003",
     "name": "Michael Brown",
     "department": "HR",
     "designation": "HR Manager",
-    "location": "Mumbai",
+    "location": "London",
+    "country": "UK",
+    "currency": "GBP",
     "joiningDate": "2022-01-20",
-    "salary": 1200000
+    "salary": 72000
   },
   {
     "employeeId": "EMP004",
@@ -32,6 +38,8 @@
     "department": "Finance",
     "designation": "Financial Analyst",
     "location": "Pune",
+    "country": "India",
+    "currency": "INR",
     "joiningDate": "2020-09-05",
     "salary": 1400000
   },
@@ -40,36 +48,44 @@
     "name": "David Wilson",
     "department": "Sales",
     "designation": "Sales Manager",
-    "location": "Delhi",
+    "location": "New York",
+    "country": "USA",
+    "currency": "USD",
     "joiningDate": "2018-11-12",
-    "salary": 2200000
+    "salary": 145000
   },
   {
     "employeeId": "EMP006",
     "name": "Lisa Anderson",
     "department": "Engineering",
     "designation": "Software Engineer",
-    "location": "Hyderabad",
+    "location": "Berlin",
+    "country": "Germany",
+    "currency": "EUR",
     "joiningDate": "2023-04-18",
-    "salary": 1100000
+    "salary": 75000
   },
   {
     "employeeId": "EMP007",
     "name": "James Taylor",
     "department": "Operations",
     "designation": "Operations Manager",
-    "location": "Chennai",
+    "location": "Tokyo",
+    "country": "Japan",
+    "currency": "JPY",
     "joiningDate": "2019-06-25",
-    "salary": 1700000
+    "salary": 9500000
   },
   {
     "employeeId": "EMP008",
     "name": "Jennifer Thomas",
     "department": "Sales",
     "designation": "Sales Executive",
-    "location": "Bangalore",
+    "location": "Sydney",
+    "country": "Australia",
+    "currency": "AUD",
     "joiningDate": "2024-02-01",
-    "salary": 900000
+    "salary": 95000
   },
   {
     "employeeId": "EMP009",
@@ -77,6 +93,8 @@
     "department": "Finance",
     "designation": "Finance Manager",
     "location": "Mumbai",
+    "country": "India",
+    "currency": "INR",
     "joiningDate": "2017-08-14",
     "salary": 2600000
   },
@@ -85,8 +103,32 @@
     "name": "Priya Sharma",
     "department": "Engineering",
     "designation": "Principal Engineer",
-    "location": "Pune",
+    "location": "Bangalore",
+    "country": "India",
+    "currency": "INR",
     "joiningDate": "2016-05-30",
     "salary": 3200000
+  },
+  {
+    "employeeId": "EMP011",
+    "name": "Hans Mueller",
+    "department": "Engineering",
+    "designation": "Backend Engineer",
+    "location": "Munich",
+    "country": "Germany",
+    "currency": "EUR",
+    "joiningDate": "2021-09-01",
+    "salary": 82000
+  },
+  {
+    "employeeId": "EMP012",
+    "name": "Yuki Tanaka",
+    "department": "HR",
+    "designation": "HR Executive",
+    "location": "Osaka",
+    "country": "Japan",
+    "currency": "JPY",
+    "joiningDate": "2022-06-15",
+    "salary": 6200000
   }
 ]

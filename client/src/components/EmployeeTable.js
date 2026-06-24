@@ -61,6 +61,7 @@ const EmployeeTable = () => {
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Department</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Designation</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Location</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Country</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Joining Date</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }} align="right">Salary</TableCell>
             </TableRow>
@@ -79,8 +80,9 @@ const EmployeeTable = () => {
                 </TableCell>
                 <TableCell>{emp.designation}</TableCell>
                 <TableCell>{emp.location}</TableCell>
+                <TableCell>{emp.country}</TableCell>
                 <TableCell>{formatDate(emp.joiningDate)}</TableCell>
-                <TableCell align="right">{formatSalary(emp.salary)}</TableCell>
+                <TableCell align="right">{formatSalary(emp.salary, emp.currency)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

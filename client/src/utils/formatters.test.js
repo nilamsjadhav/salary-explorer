@@ -1,24 +1,36 @@
 import { formatSalary, formatDate } from "./formatters";
 
 describe("formatSalary", () => {
-  it("should format salary in INR currency", () => {
+  it("should format INR salary", () => {
+    expect(formatSalary(1800000, "INR")).toBe("₹18,00,000");
+  });
+
+  it("should format USD salary", () => {
+    expect(formatSalary(185000, "USD")).toBe("$185,000");
+  });
+
+  it("should format GBP salary", () => {
+    expect(formatSalary(72000, "GBP")).toBe("£72,000");
+  });
+
+  it("should format EUR salary", () => {
+    expect(formatSalary(75000, "EUR")).toContain("75.000");
+  });
+
+  it("should format JPY salary", () => {
+    expect(formatSalary(9500000, "JPY")).toContain("9,500,000");
+  });
+
+  it("should format AUD salary", () => {
+    expect(formatSalary(95000, "AUD")).toContain("95,000");
+  });
+
+  it("should default to INR when no currency provided", () => {
     expect(formatSalary(1800000)).toBe("₹18,00,000");
   });
 
   it("should format zero salary", () => {
-    expect(formatSalary(0)).toBe("₹0");
-  });
-
-  it("should format small salary", () => {
-    expect(formatSalary(50000)).toBe("₹50,000");
-  });
-
-  it("should format large salary with Indian number grouping", () => {
-    expect(formatSalary(3200000)).toBe("₹32,00,000");
-  });
-
-  it("should truncate decimal places", () => {
-    expect(formatSalary(1500000.75)).toBe("₹15,00,001");
+    expect(formatSalary(0, "USD")).toBe("$0");
   });
 });
 

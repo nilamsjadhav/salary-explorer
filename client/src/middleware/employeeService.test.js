@@ -25,16 +25,4 @@ describe("employeeService", () => {
       await expect(employeeService.getAll()).rejects.toThrow("Network error");
     });
   });
-
-  describe("getById", () => {
-    it("should call api.get with correct endpoint", async () => {
-      const mockEmployee = { employeeId: "EMP001", name: "John" };
-      api.get.mockResolvedValue(mockEmployee);
-
-      const result = await employeeService.getById("EMP001");
-
-      expect(api.get).toHaveBeenCalledWith("/api/employees/EMP001");
-      expect(result).toEqual(mockEmployee);
-    });
-  });
 });

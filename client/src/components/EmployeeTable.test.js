@@ -11,6 +11,8 @@ const mockEmployees = [
     department: "Engineering",
     designation: "Senior Engineer",
     location: "Pune",
+    country: "India",
+    currency: "INR",
     joiningDate: "2021-03-15",
     salary: 1800000,
   },
@@ -19,9 +21,11 @@ const mockEmployees = [
     name: "Sarah Johnson",
     department: "HR",
     designation: "HR Manager",
-    location: "Mumbai",
+    location: "London",
+    country: "UK",
+    currency: "GBP",
     joiningDate: "2022-01-20",
-    salary: 1200000,
+    salary: 72000,
   },
 ];
 
@@ -70,6 +74,7 @@ describe("EmployeeTable", () => {
     expect(screen.getByText("Department")).toBeInTheDocument();
     expect(screen.getByText("Designation")).toBeInTheDocument();
     expect(screen.getByText("Location")).toBeInTheDocument();
+    expect(screen.getByText("Country")).toBeInTheDocument();
     expect(screen.getByText("Joining Date")).toBeInTheDocument();
     expect(screen.getByText("Salary")).toBeInTheDocument();
   });
@@ -86,13 +91,15 @@ describe("EmployeeTable", () => {
     expect(chip).toBeInTheDocument();
   });
 
-  it("should display formatted salary", async () => {
+  it("should display formatted salary with correct currency", async () => {
     employeeService.getAll.mockResolvedValue(mockEmployees);
     render(<EmployeeTable />);
 
     await waitFor(() => {
       expect(screen.getByText("₹18,00,000")).toBeInTheDocument();
     });
+
+    expect(screen.getByText("£72,000")).toBeInTheDocument();
   });
 
   it("should display formatted date", async () => {
