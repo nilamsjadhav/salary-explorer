@@ -1,0 +1,92 @@
+[
+  {
+    "employeeId": "EMP001",
+    "name": "John Smith",
+    "department": "Engineering",
+    "designation": "Senior Engineer",
+    "location": "Pune",
+    "joiningDate": "2021-03-15",
+    "salary": 1800000
+  },
+  {
+    "employeeId": "EMP002",
+    "name": "Sarah Johnson",
+    "department": "Engineering",
+    "designation": "Lead Engineer",
+    "location": "Bangalore",
+    "joiningDate": "2019-07-10",
+    "salary": 2500000
+  },
+  {
+    "employeeId": "EMP003",
+    "name": "Michael Brown",
+    "department": "HR",
+    "designation": "HR Manager",
+    "location": "Mumbai",
+    "joiningDate": "2022-01-20",
+    "salary": 1200000
+  },
+  {
+    "employeeId": "EMP004",
+    "name": "Emily Davis",
+    "department": "Finance",
+    "designation": "Financial Analyst",
+    "location": "Pune",
+    "joiningDate": "2020-09-05",
+    "salary": 1400000
+  },
+  {
+    "employeeId": "EMP005",
+    "name": "David Wilson",
+    "department": "Sales",
+    "designation": "Sales Manager",
+    "location": "Delhi",
+    "joiningDate": "2018-11-12",
+    "salary": 2200000
+  },
+  {
+    "employeeId": "EMP006",
+    "name": "Lisa Anderson",
+    "department": "Engineering",
+    "designation": "Software Engineer",
+    "location": "Hyderabad",
+    "joiningDate": "2023-04-18",
+    "salary": 1100000
+  },
+  {
+    "employeeId": "EMP007",
+    "name": "James Taylor",
+    "department": "Operations",
+    "designation": "Operations Manager",
+    "location": "Chennai",
+    "joiningDate": "2019-06-25",
+    "salary": 1700000
+  },
+  {
+    "employeeId": "EMP008",
+    "name": "Jennifer Thomas",
+    "department": "Sales",
+    "designation": "Sales Executive",
+    "location": "Bangalore",
+    "joiningDate": "2024-02-01",
+    "salary": 900000
+  },
+  {
+    "employeeId": "EMP009",
+    "name": "Robert Martin",
+    "department": "Finance",
+    "designation": "Finance Manager",
+    "location": "Mumbai",
+    "joiningDate": "2017-08-14",
+    "salary": 2600000
+  },
+  {
+    "employeeId": "EMP010",
+    "name": "Priya Sharma",
+    "department": "Engineering",
+    "designation": "Principal Engineer",
+    "location": "Pune",
+    "joiningDate": "2016-05-30",
+    "salary": 3200000
+  }
+]
