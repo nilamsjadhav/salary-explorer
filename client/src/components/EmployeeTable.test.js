@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import EmployeeTable from "./EmployeeTable";
 import employeeService from "../middleware/employeeService";
 
@@ -142,5 +142,87 @@ describe("EmployeeTable", () => {
     const rows = screen.getAllByRole("row");
     // 1 header row + 2 data rows
     expect(rows).toHaveLength(3);
+  });
+
+  it("should render a search input", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
+    });
+  });
+
+  it("should filter employees by name", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(searchInput, { target: { value: "Sarah" } });
+
+    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
+    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+  });
+
+  it("should filter employees by department", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(searchInput, { target: { value: "HR" } });
+
+    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
+    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+  });
+
+  it("should filter employees by country", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(searchInput, { target: { value: "UK" } });
+
+    expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
+    expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
+  });
+
+  it("should show no results message when search has no matches", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(searchInput, { target: { value: "xyz123" } });
+
+    expect(screen.getByText(/No employees found/i)).toBeInTheDocument();
+  });
+
+  it("should be case-insensitive search", async () => {
+    employeeService.getAll.mockResolvedValue(mockEmployees);
+    render(<EmployeeTable />);
+
+    await waitFor(() => {
+      expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    fireEvent.change(searchInput, { target: { value: "john" } });
+
+    expect(screen.getByText("John Smith")).toBeInTheDocument();
   });
 });
