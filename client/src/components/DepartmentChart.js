@@ -35,7 +35,7 @@ const DepartmentChart = () => {
       <Typography variant="h6" gutterBottom>
         Employees by Department
       </Typography>
-      <ResponsiveContainer width="100%" height={Math.max(300, data.length * 40)}>
+      <ResponsiveContainer width="100%" height={Math.max(250, data.length * 32)}>
         <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" allowDecimals={false} />
