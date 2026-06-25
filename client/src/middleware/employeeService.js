@@ -27,6 +27,8 @@ const employeeService = {
     const endpoint = `/api/dashboard${queryString ? `?${queryString}` : ""}`;
     return api.get(endpoint);
   },
+
+  getDepartments: () => api.get("/api/dashboard/departments"),
 };
 
 export default employeeService;

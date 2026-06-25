@@ -87,4 +87,39 @@ function getDashboardStats({ currency } = {}) {
     .get(params);
 }
 
-module.exports = { getEmployees, getDashboardStats };
+function getEmployeesByDepartment() {
+  const db = getDb();
+
+  return db
+    .prepare(
+      `SELECT department, COUNT(*) as count
+      FROM employees
+      GROUP BY department
+      ORDER BY count DESC`
+    )
+    .all();
+}
+
+function getSalaryDistribution() {
+  const db = getDb();
+
+  const rows = db
+    .prepare(
+      `SELECT salary FROM employees`
+    )
+    .all();
+
+  const ranges = [
+    { min: 0, max: 1000000, label: "0-10 LPA" },
+    { min: 1000000, max: 2000000, label: "10-20 LPA" },
+    { min: 2000000, max: 3000000, label: "20-30 LPA" },
+    { min: 3000000, max: Infinity, label: "30+ LPA" },
+  ];
+
+  return ranges.map(({ min, max, label }) => ({
+    salaryRange: label,
+    employeeCount: rows.filter((r) => r.salary >= min && r.salary < max).length,
+  }));
+}
+
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment };

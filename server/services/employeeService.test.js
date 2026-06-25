@@ -12,7 +12,7 @@ afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment } = require("./employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {
@@ -102,5 +102,24 @@ describe("getDashboardStats", () => {
     expect(stats.totalPayroll).toBeGreaterThan(0);
     const allStats = getDashboardStats();
     expect(stats.totalPayroll).toBeLessThanOrEqual(allStats.totalPayroll);
+  });
+});
+
+describe("getEmployeesByDepartment", () => {
+  it("should return department counts", () => {
+    const result = getEmployeesByDepartment();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((row) => {
+      expect(row).toHaveProperty("department");
+      expect(row).toHaveProperty("count");
+      expect(row.count).toBeGreaterThan(0);
+    });
+  });
+
+  it("should be sorted by count descending", () => {
+    const result = getEmployeesByDepartment();
+    for (let i = 1; i < result.length; i++) {
+      expect(result[i - 1].count).toBeGreaterThanOrEqual(result[i].count);
+    }
   });
 });

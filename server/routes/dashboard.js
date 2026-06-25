@@ -1,4 +1,4 @@
-const { getDashboardStats } = require("../services/employeeService");
+const { getDashboardStats, getEmployeesByDepartment } = require("../services/employeeService");
 
 function getDashboard(req, res) {
   try {
@@ -9,4 +9,22 @@ function getDashboard(req, res) {
   }
 }
 
-module.exports = { getDashboard };
+function getDepartmentChart(req, res) {
+  try {
+    const data = getEmployeesByDepartment();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch department data" });
+  }
+}
+
+function getSalaryChart(req, res) {
+  try {
+    const data = getSalaryDistribution();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch salary distribution" });
+  }
+}
+
+module.exports = { getDashboard, getDepartmentChart };

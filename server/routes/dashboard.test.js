@@ -68,3 +68,23 @@ describe("getDashboard", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Failed to fetch dashboard data" });
   });
 });
+
+describe("getDepartmentChart", () => {
+  const { getDepartmentChart } = require("./dashboard");
+
+  function mockReqRes() {
+    const req = {};
+    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
+    return { req, res };
+  }
+
+  it("should return department counts", () => {
+    const { req, res } = mockReqRes();
+    getDepartmentChart(req, res);
+
+    const result = res.json.mock.calls[0][0];
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0]).toHaveProperty("department");
+    expect(result[0]).toHaveProperty("count");
+  });
+});

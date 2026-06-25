@@ -4,6 +4,14 @@ import employeeService from "../middleware/employeeService";
 
 jest.mock("../middleware/employeeService");
 
+beforeAll(() => {
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+});
+
 const mockStats = {
   averageSalary: 2112833.33,
   highestSalary: 9500000,
@@ -14,10 +22,12 @@ const mockStats = {
 describe("Dashboard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    employeeService.getDepartments.mockResolvedValue([]);
   });
 
   it("should show loading spinner initially", () => {
     employeeService.getDashboard.mockReturnValue(new Promise(() => {}));
+    employeeService.getDepartments.mockReturnValue(new Promise(() => {}));
     render(<Dashboard />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });

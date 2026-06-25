@@ -83,4 +83,16 @@ describe("employeeService", () => {
       expect(api.get).toHaveBeenCalledWith("/api/dashboard?currency=USD");
     });
   });
+
+  describe("getDepartments", () => {
+    it("should call api.get with /api/dashboard/departments", async () => {
+      const mockData = [{ department: "Engineering", count: 4 }];
+      api.get.mockResolvedValue(mockData);
+
+      const result = await employeeService.getDepartments();
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/departments");
+      expect(result).toEqual(mockData);
+    });
+  });
 });
