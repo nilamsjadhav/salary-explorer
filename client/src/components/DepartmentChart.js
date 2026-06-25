@@ -35,7 +35,7 @@ const DepartmentChart = () => {
       <Typography variant="h6" gutterBottom>
         Employees by Department
       </Typography>
-      <ResponsiveContainer width="100%" height={450}>
+      <ResponsiveContainer width="100%" height={500}>
         <PieChart>
           <Pie
             data={data}
@@ -43,7 +43,7 @@ const DepartmentChart = () => {
             nameKey="department"
             cx="50%"
             cy="50%"
-            outerRadius={120}
+            outerRadius={200}
             label={({ department, count }) => `${department} (${count})`}
           >
             {data.map((_, index) => (
