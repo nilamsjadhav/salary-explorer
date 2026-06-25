@@ -1,6 +1,9 @@
 const request = require("supertest");
 const { getDb, closeDb } = require("./db");
 const { seed } = require("./seed");
+const employees = require("./data/employees_1K.json");
+
+const totalEmployees = employees.length;
 
 process.env.DB_PATH = ":memory:";
 
@@ -25,7 +28,7 @@ describe("app.js", () => {
     const res = await request(app).get("/api/employees");
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("data");
-    expect(res.body).toHaveProperty("totalRecords", 12);
+    expect(res.body).toHaveProperty("totalRecords", totalEmployees);
   });
 
   it("should return 404 for unknown routes", async () => {

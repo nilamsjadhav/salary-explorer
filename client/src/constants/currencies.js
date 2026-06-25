@@ -5,6 +5,13 @@ export const CURRENCIES = [
   { value: "EUR", label: "EUR (€)" },
   { value: "JPY", label: "JPY (¥)" },
   { value: "AUD", label: "AUD (A$)" },
+  { value: "CAD", label: "CAD (C$)" },
+  { value: "AED", label: "AED (د.إ)" },
+  { value: "SGD", label: "SGD (S$)" },
+  { value: "KRW", label: "KRW (₩)" },
+  { value: "MXN", label: "MXN ($)" },
+  { value: "BRL", label: "BRL (R$)" },
+  { value: "CNY", label: "CNY (¥)" },
 ];
 
 export const CURRENCY_VALUES = ["All", ...CURRENCIES.map((c) => c.value)];

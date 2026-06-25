@@ -5,6 +5,13 @@ const currencyLocaleMap = {
   EUR: "de-DE",
   JPY: "ja-JP",
   AUD: "en-AU",
+  CAD: "en-CA",
+  AED: "ar-AE",
+  SGD: "en-SG",
+  KRW: "ko-KR",
+  MXN: "es-MX",
+  BRL: "pt-BR",
+  CNY: "zh-CN",
 };
 
 export function formatSalary(amount, currency = "INR") {

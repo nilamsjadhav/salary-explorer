@@ -1,6 +1,10 @@
 const request = require("supertest");
 const { getDb, closeDb } = require("./db");
 const { seed } = require("./seed");
+const employees = require("./data/employees_1K.json");
+
+const totalEmployees = employees.length;
+const defaultPageSize = 20;
 
 // Use in-memory DB for tests
 process.env.DB_PATH = ":memory:";
@@ -27,10 +31,10 @@ describe("GET /api/employees", () => {
     expect(res.headers["content-type"]).toMatch(/json/);
   });
 
-  it("should return all 12 employees", async () => {
+  it("should return all employees in paginated results", async () => {
     const res = await request(app).get("/api/employees");
-    expect(res.body.data).toHaveLength(12);
-    expect(res.body.totalRecords).toBe(12);
+    expect(res.body.data).toHaveLength(Math.min(totalEmployees, defaultPageSize));
+    expect(res.body.totalRecords).toBe(totalEmployees);
   });
 
   it("should return employees with correct structure", async () => {

@@ -1,5 +1,8 @@
 const { getDb, closeDb } = require("../db");
 const { seed } = require("../seed");
+const employees = require("../data/employees_1K.json");
+
+const totalEmployees = employees.length;
 
 process.env.DB_PATH = ":memory:";
 
@@ -29,8 +32,8 @@ describe("getAllEmployees", () => {
     expect(result).toHaveProperty("data");
     expect(result).toHaveProperty("page", 1);
     expect(result).toHaveProperty("pageSize", 20);
-    expect(result).toHaveProperty("totalRecords", 12);
-    expect(result).toHaveProperty("totalPages", 1);
+    expect(result).toHaveProperty("totalRecords", totalEmployees);
+    expect(result).toHaveProperty("totalPages", Math.ceil(totalEmployees / 20));
   });
 
   it("should return employees with correct structure", () => {
@@ -109,7 +112,7 @@ describe("getAllEmployees", () => {
     expect(result.data.length).toBeLessThanOrEqual(5);
     expect(result.page).toBe(1);
     expect(result.pageSize).toBe(5);
-    expect(result.totalPages).toBe(Math.ceil(12 / 5));
+    expect(result.totalPages).toBe(Math.ceil(totalEmployees / 5));
   });
 
   it("should return 500 when db throws an error", () => {

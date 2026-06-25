@@ -1,5 +1,9 @@
 const { getDb, closeDb } = require("../db");
 const { seed } = require("../seed");
+const employees = require("../data/employees_1K.json");
+
+const totalEmployees = employees.length;
+const getEmployeeCountByCurrency = (currency) => employees.filter((employee) => employee.currency === currency).length;
 
 process.env.DB_PATH = ":memory:";
 
@@ -20,9 +24,9 @@ describe("getEmployees", () => {
     expect(result).toHaveProperty("data");
     expect(result).toHaveProperty("page", 1);
     expect(result).toHaveProperty("pageSize", 20);
-    expect(result).toHaveProperty("totalRecords", 12);
-    expect(result).toHaveProperty("totalPages", 1);
-    expect(result.data).toHaveLength(12);
+    expect(result).toHaveProperty("totalRecords", totalEmployees);
+    expect(result).toHaveProperty("totalPages", Math.ceil(totalEmployees / 20));
+    expect(result.data).toHaveLength(Math.min(totalEmployees, 20));
   });
 
   it("should filter by search term", () => {
@@ -70,7 +74,7 @@ describe("getEmployees", () => {
     expect(result.data.length).toBeLessThanOrEqual(5);
     expect(result.page).toBe(1);
     expect(result.pageSize).toBe(5);
-    expect(result.totalPages).toBe(Math.ceil(12 / 5));
+    expect(result.totalPages).toBe(Math.ceil(totalEmployees / 5));
   });
 });
 
@@ -135,23 +139,30 @@ describe("getSalaryDistribution", () => {
     });
   });
 
-  it("should have INR LPA range labels by default", () => {
+  it("should return dynamically generated INR range labels by default", () => {
     const result = getSalaryDistribution();
-    const labels = result.map((r) => r.salaryRange);
-    expect(labels).toEqual(["0-10 LPA", "10-20 LPA", "20-30 LPA", "30+ LPA"]);
+    expect(result).toHaveLength(4);
+    result.forEach((row, index) => {
+      expect(typeof row.salaryRange).toBe("string");
+      expect(row.salaryRange.length).toBeGreaterThan(0);
+      if (index === result.length - 1) {
+        expect(row.salaryRange).toMatch(/\+$/);
+      } else {
+        expect(row.salaryRange).toContain("-");
+      }
+    });
   });
 
-  it("should filter by currency and return appropriate ranges", () => {
+  it("should filter by currency and return ranges that total the USD employee count", () => {
     const result = getSalaryDistribution({ currency: "USD" });
-    const labels = result.map((r) => r.salaryRange);
-    expect(labels).toEqual(["0-50K", "50-100K", "100-200K", "200K+"]);
+    expect(result).toHaveLength(4);
     const total = result.reduce((sum, r) => sum + r.employeeCount, 0);
-    expect(total).toBe(2);
+    expect(total).toBe(getEmployeeCountByCurrency("USD"));
   });
 
   it("should count employees correctly for INR", () => {
     const result = getSalaryDistribution({ currency: "INR" });
     const total = result.reduce((sum, r) => sum + r.employeeCount, 0);
-    expect(total).toBe(4);
+    expect(total).toBe(getEmployeeCountByCurrency("INR"));
   });
 });

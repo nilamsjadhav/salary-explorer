@@ -1,14 +1,19 @@
 const { getDb } = require("./db");
-const employees = require("./data/employees.json");
+const employees = require("./data/employees_1K.json");
 
 function seed() {
   const db = getDb();
 
   const count = db.prepare("SELECT COUNT(*) as count FROM employees").get();
 
-  if (count.count > 0) {
+  if (count.count === employees.length) {
     console.log(`Database already seeded with ${count.count} employees. Skipping.`);
     return;
+  }
+
+  if (count.count > 0) {
+    console.log(`Data count changed (${count.count} → ${employees.length}). Re-seeding...`);
+    db.prepare("DELETE FROM employees").run();
   }
 
   const insert = db.prepare(`
