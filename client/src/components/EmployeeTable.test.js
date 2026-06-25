@@ -52,12 +52,12 @@ describe("EmployeeTable", () => {
     expect(screen.getByText("Sarah Johnson")).toBeInTheDocument();
   });
 
-  it("should display the Employee Directory heading", async () => {
+  it("should display the search bar after loading", async () => {
     employeeService.getAll.mockResolvedValue(mockResponse);
     render(<EmployeeTable />);
 
     await waitFor(() => {
-      expect(screen.getByText("Employee Directory")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
     });
   });
 

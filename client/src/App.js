@@ -1,4 +1,4 @@
-import EmployeeTable from './components/EmployeeTable';
+import TabLayout from './components/TabLayout';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
           <Typography variant="h6">Salary Explorer</Typography>
         </Toolbar>
       </AppBar>
-      <EmployeeTable />
+      <TabLayout />
     </div>
   );
 }

@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   CircularProgress,
   Alert,
   Box,
@@ -130,10 +129,6 @@ const EmployeeTable = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Employee Directory
-      </Typography>
-
       <SearchBar value={searchTerm} onChange={handleSearchChange} />
 
       <DateRangeFilter
