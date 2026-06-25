@@ -98,7 +98,9 @@ describe("EmployeeTable", () => {
     });
 
     await waitFor(() => {
-      expect(employeeService.getAll).toHaveBeenCalledWith({ search: "Sarah" });
+      expect(employeeService.getAll).toHaveBeenCalledWith(
+        expect.objectContaining({ search: "Sarah" })
+      );
     });
   });
 

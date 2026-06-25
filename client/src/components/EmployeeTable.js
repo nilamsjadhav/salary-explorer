@@ -16,6 +16,7 @@ import employeeService from "../middleware/employeeService";
 import SearchBar from "./SearchBar";
 import DateRangeFilter from "./DateRangeFilter";
 import SalaryFilter from "./SalaryFilter";
+import Pagination from "./Pagination";
 import EmployeeRow from "./EmployeeRow";
 
 const headerCellSx = { color: "white", fontWeight: "bold" };
@@ -30,6 +31,9 @@ const EmployeeTable = () => {
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
   const [currency, setCurrency] = useState("All");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
   const isInitialLoad = useRef(true);
 
   const fetchEmployees = useCallback(() => {
@@ -45,16 +49,21 @@ const EmployeeTable = () => {
     if (currency && currency !== "All") params.currency = currency;
     if (minSalary) params.minSalary = minSalary;
     if (maxSalary) params.maxSalary = maxSalary;
+    params.page = page;
+    params.pageSize = pageSize;
 
     employeeService
       .getAll(params)
-      .then((response) => setEmployees(response?.data || []))
+      .then((response) => {
+        setEmployees(response?.data || []);
+        setTotalRecords(response?.totalRecords || 0);
+      })
       .catch((err) => setError(err.message))
       .finally(() => {
         setLoading(false);
         isInitialLoad.current = false;
       });
-  }, [searchTerm, fromDate, toDate, currency, minSalary, maxSalary]);
+  }, [searchTerm, fromDate, toDate, currency, minSalary, maxSalary, page, pageSize]);
 
   useEffect(() => {
     if (isInitialLoad.current) {
@@ -87,10 +96,36 @@ const EmployeeTable = () => {
 
   const handleCurrencyChange = (value) => {
     setCurrency(value);
+    setPage(1);
     if (value === "All") {
       setMinSalary("");
       setMaxSalary("");
     }
+  };
+
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    setPage(1);
+  };
+
+  const handleFromDateChange = (value) => {
+    setFromDate(value);
+    setPage(1);
+  };
+
+  const handleToDateChange = (value) => {
+    setToDate(value);
+    setPage(1);
+  };
+
+  const handleMinSalaryChange = (value) => {
+    setMinSalary(value);
+    setPage(1);
+  };
+
+  const handleMaxSalaryChange = (value) => {
+    setMaxSalary(value);
+    setPage(1);
   };
 
   return (
@@ -99,13 +134,13 @@ const EmployeeTable = () => {
         Employee Directory
       </Typography>
 
-      <SearchBar value={searchTerm} onChange={setSearchTerm} />
+      <SearchBar value={searchTerm} onChange={handleSearchChange} />
 
       <DateRangeFilter
         fromDate={fromDate}
         toDate={toDate}
-        onFromDateChange={setFromDate}
-        onToDateChange={setToDate}
+        onFromDateChange={handleFromDateChange}
+        onToDateChange={handleToDateChange}
       />
 
       <SalaryFilter
@@ -113,8 +148,8 @@ const EmployeeTable = () => {
         minSalary={minSalary}
         maxSalary={maxSalary}
         onCurrencyChange={handleCurrencyChange}
-        onMinSalaryChange={setMinSalary}
-        onMaxSalaryChange={setMaxSalary}
+        onMinSalaryChange={handleMinSalaryChange}
+        onMaxSalaryChange={handleMaxSalaryChange}
       />
 
       <TableContainer component={Paper} elevation={3}>
@@ -146,6 +181,14 @@ const EmployeeTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Pagination
+        page={page}
+        pageSize={pageSize}
+        totalRecords={totalRecords}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+      />
     </Box>
   );
 }
