@@ -38,6 +38,13 @@ const employeeService = {
   },
 
   getGenderDistribution: () => api.get("/api/dashboard/gender"),
+
+  getReports: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.country) query.set("country", params.country);
+    const queryString = query.toString();
+    return api.get(`/api/dashboard/reports${queryString ? `?${queryString}` : ""}`);
+  },
 };
 
 export default employeeService;

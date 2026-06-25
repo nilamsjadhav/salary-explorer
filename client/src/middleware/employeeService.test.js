@@ -125,4 +125,24 @@ describe("employeeService", () => {
       expect(result).toEqual(mockData);
     });
   });
+
+  describe("getReports", () => {
+    it("should call api.get with /api/dashboard/reports when no params", async () => {
+      const mockData = { top5HighestPaidEmployees: [], averageSalaryByDepartment: [], payrollByDepartment: [] };
+      api.get.mockResolvedValue(mockData);
+
+      const result = await employeeService.getReports();
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/reports");
+      expect(result).toEqual(mockData);
+    });
+
+    it("should pass country param in query string", async () => {
+      api.get.mockResolvedValue({});
+
+      await employeeService.getReports({ country: "India" });
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/reports?country=India");
+    });
+  });
 });
