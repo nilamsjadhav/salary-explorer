@@ -35,23 +35,27 @@ const DepartmentChart = () => {
       <Typography variant="h6" gutterBottom>
         Employees by Department
       </Typography>
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie
             data={data}
             dataKey="count"
             nameKey="department"
-            cx="50%"
+            cx="40%"
             cy="50%"
-            outerRadius={200}
-            label={({ department, count }) => `${department} (${count})`}
+            outerRadius="70%"
           >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip />
-          <Legend />
+          <Tooltip formatter={(value, name) => [`${value} employees`, name]} />
+          <Legend
+            layout="vertical"
+            align="right"
+            verticalAlign="middle"
+            formatter={(value, entry) => `${value} (${entry.payload.count})`}
+          />
         </PieChart>
       </ResponsiveContainer>
     </Paper>
