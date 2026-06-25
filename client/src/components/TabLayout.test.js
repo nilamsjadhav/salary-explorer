@@ -5,11 +5,13 @@ import employeeService from "../middleware/employeeService";
 jest.mock("../middleware/employeeService");
 
 const mockResponse = { data: [], page: 1, pageSize: 10, totalRecords: 0, totalPages: 0 };
+const mockDashboard = { averageSalary: 100000, highestSalary: 200000, lowestSalary: 50000, totalPayroll: 500000 };
 
 describe("TabLayout", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     employeeService.getAll.mockResolvedValue(mockResponse);
+    employeeService.getDashboard.mockResolvedValue(mockDashboard);
   });
 
   it("should render all three tabs", () => {
@@ -29,7 +31,9 @@ describe("TabLayout", () => {
   it("should switch to Dashboard tab on click", async () => {
     render(<TabLayout />);
     fireEvent.click(screen.getByText("Dashboard"));
-    expect(screen.getByText(/KPIs, salary charts/)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Average Salary")).toBeInTheDocument();
+    });
   });
 
   it("should switch to Compensation Insights tab on click", () => {

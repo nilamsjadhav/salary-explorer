@@ -19,6 +19,14 @@ const employeeService = {
 
     return api.get(endpoint);
   },
+
+  getDashboard: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.currency) query.set("currency", params.currency);
+    const queryString = query.toString();
+    const endpoint = `/api/dashboard${queryString ? `?${queryString}` : ""}`;
+    return api.get(endpoint);
+  },
 };
 
 export default employeeService;

@@ -96,4 +96,11 @@ describe("getDashboardStats", () => {
     expect(stats.highestSalary).toBeGreaterThanOrEqual(stats.averageSalary);
     expect(stats.averageSalary).toBeGreaterThanOrEqual(stats.lowestSalary);
   });
+
+  it("should filter stats by currency", () => {
+    const stats = getDashboardStats({ currency: "INR" });
+    expect(stats.totalPayroll).toBeGreaterThan(0);
+    const allStats = getDashboardStats();
+    expect(stats.totalPayroll).toBeLessThanOrEqual(allStats.totalPayroll);
+  });
 });

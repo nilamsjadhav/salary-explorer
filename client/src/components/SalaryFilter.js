@@ -1,6 +1,5 @@
 import { Box, TextField, MenuItem } from "@mui/material";
-
-const CURRENCIES = ["All", "INR", "USD", "GBP", "EUR", "JPY", "AUD"];
+import { CURRENCY_VALUES } from "../constants/currencies";
 
 const SalaryFilter = ({ currency, minSalary, maxSalary, onCurrencyChange, onMinSalaryChange, onMaxSalaryChange }) => {
   return (
@@ -13,7 +12,7 @@ const SalaryFilter = ({ currency, minSalary, maxSalary, onCurrencyChange, onMinS
         onChange={(e) => onCurrencyChange(e.target.value)}
         sx={{ width: 140 }}
       >
-        {CURRENCIES.map((c) => (
+        {CURRENCY_VALUES.map((c) => (
           <MenuItem key={c} value={c}>{c}</MenuItem>
         ))}
       </TextField>

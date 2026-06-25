@@ -63,4 +63,24 @@ describe("employeeService", () => {
       await expect(employeeService.getAll()).rejects.toThrow("Network error");
     });
   });
+
+  describe("getDashboard", () => {
+    it("should call api.get with /api/dashboard when no params", async () => {
+      const mockStats = { averageSalary: 100000 };
+      api.get.mockResolvedValue(mockStats);
+
+      const result = await employeeService.getDashboard();
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard");
+      expect(result).toEqual(mockStats);
+    });
+
+    it("should pass currency param in query string", async () => {
+      api.get.mockResolvedValue({});
+
+      await employeeService.getDashboard({ currency: "USD" });
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard?currency=USD");
+    });
+  });
 });

@@ -1,0 +1,73 @@
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import Dashboard from "./Dashboard";
+import employeeService from "../middleware/employeeService";
+
+jest.mock("../middleware/employeeService");
+
+const mockStats = {
+  averageSalary: 2112833.33,
+  highestSalary: 9500000,
+  lowestSalary: 72000,
+  totalPayroll: 25354000,
+};
+
+describe("Dashboard", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should show loading spinner initially", () => {
+    employeeService.getDashboard.mockReturnValue(new Promise(() => {}));
+    render(<Dashboard />);
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  });
+
+  it("should display all stat cards after loading", async () => {
+    employeeService.getDashboard.mockResolvedValue(mockStats);
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Average Salary")).toBeInTheDocument();
+      expect(screen.getByText("Highest Salary")).toBeInTheDocument();
+      expect(screen.getByText("Lowest Salary")).toBeInTheDocument();
+      expect(screen.getByText("Total Payroll")).toBeInTheDocument();
+    });
+  });
+
+  it("should show currency selector with INR as default", async () => {
+    employeeService.getDashboard.mockResolvedValue(mockStats);
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Currency")).toBeInTheDocument();
+    });
+    expect(screen.getByText("INR (₹)")).toBeInTheDocument();
+  });
+
+  it("should fetch dashboard with default currency INR", async () => {
+    employeeService.getDashboard.mockResolvedValue(mockStats);
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(employeeService.getDashboard).toHaveBeenCalledWith({ currency: "INR" });
+    });
+  });
+
+  it("should show error message on failure", async () => {
+    employeeService.getDashboard.mockRejectedValue(new Error("Network error"));
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Failed to load dashboard: Network error")).toBeInTheDocument();
+    });
+  });
+
+  it("should not show loading after data loads", async () => {
+    employeeService.getDashboard.mockResolvedValue(mockStats);
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    });
+  });
+});

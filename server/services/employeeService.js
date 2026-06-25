@@ -69,8 +69,11 @@ function getEmployees({ search, department, currency, minSalary, maxSalary, from
   };
 }
 
-function getDashboardStats() {
+function getDashboardStats({ currency } = {}) {
   const db = getDb();
+
+  const whereClause = currency ? "WHERE currency = @currency" : "";
+  const params = currency ? { currency } : {};
 
   return db
     .prepare(
@@ -79,9 +82,9 @@ function getDashboardStats() {
         MAX(salary) as highestSalary,
         MIN(salary) as lowestSalary,
         SUM(salary) as totalPayroll
-      FROM employees`
+      FROM employees ${whereClause}`
     )
-    .get();
+    .get(params);
 }
 
 module.exports = { getEmployees, getDashboardStats };
