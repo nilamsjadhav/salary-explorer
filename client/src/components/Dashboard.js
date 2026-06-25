@@ -6,6 +6,7 @@ import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
 import DepartmentChart from "./DepartmentChart";
 import SalaryDistributionChart from "./SalaryDistributionChart";
 import GenderChart from "./GenderChart";
+import ReportsSection from "./ReportsSection";
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -97,6 +98,12 @@ const Dashboard = () => {
           <GenderChart />
         </Grid>
       </Grid>
+
+      <Typography variant="h6" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
+        Reports &amp; Analytics
+      </Typography>
+
+      <ReportsSection />
     </Box>
   );
 };

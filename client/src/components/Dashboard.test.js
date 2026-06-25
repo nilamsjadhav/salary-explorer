@@ -25,6 +25,11 @@ describe("Dashboard", () => {
     employeeService.getDepartments.mockResolvedValue([]);
     employeeService.getSalaryDistribution.mockResolvedValue([]);
     employeeService.getGenderDistribution.mockResolvedValue([]);
+    employeeService.getReports.mockResolvedValue({
+      top5HighestPaidEmployees: [],
+      averageSalaryByDepartment: [],
+      payrollByDepartment: [],
+    });
   });
 
   it("should show loading spinner initially", () => {
@@ -32,6 +37,7 @@ describe("Dashboard", () => {
     employeeService.getDepartments.mockReturnValue(new Promise(() => {}));
     employeeService.getSalaryDistribution.mockReturnValue(new Promise(() => {}));
     employeeService.getGenderDistribution.mockReturnValue(new Promise(() => {}));
+    employeeService.getReports.mockReturnValue(new Promise(() => {}));
     render(<Dashboard />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
@@ -82,6 +88,15 @@ describe("Dashboard", () => {
 
     await waitFor(() => {
       expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should show Reports & Analytics heading", async () => {
+    employeeService.getDashboard.mockResolvedValue(mockStats);
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Reports & Analytics")).toBeInTheDocument();
     });
   });
 });
