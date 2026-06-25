@@ -21,6 +21,7 @@ function createTable() {
     CREATE TABLE IF NOT EXISTS employees (
       employeeId TEXT PRIMARY KEY,
       name TEXT NOT NULL,
+      gender TEXT,
       department TEXT NOT NULL,
       designation TEXT NOT NULL,
       location TEXT NOT NULL,

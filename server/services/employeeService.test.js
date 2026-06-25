@@ -16,7 +16,7 @@ afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution } = require("./employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {
@@ -164,5 +164,23 @@ describe("getSalaryDistribution", () => {
     const result = getSalaryDistribution({ currency: "INR" });
     const total = result.reduce((sum, r) => sum + r.employeeCount, 0);
     expect(total).toBe(getEmployeeCountByCurrency("INR"));
+  });
+});
+
+describe("getGenderDistribution", () => {
+  it("should return gender counts", () => {
+    const result = getGenderDistribution();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((row) => {
+      expect(row).toHaveProperty("gender");
+      expect(row).toHaveProperty("count");
+      expect(row.count).toBeGreaterThan(0);
+    });
+  });
+
+  it("should have total count equal to all employees", () => {
+    const result = getGenderDistribution();
+    const total = result.reduce((sum, r) => sum + r.count, 0);
+    expect(total).toBe(totalEmployees);
   });
 });

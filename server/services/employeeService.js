@@ -142,4 +142,17 @@ function getSalaryDistribution({ currency = "INR" } = {}) {
   return ranges;
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution };
+function getGenderDistribution() {
+  const db = getDb();
+
+  return db
+    .prepare(
+      `SELECT gender, COUNT(*) as count
+      FROM employees
+      GROUP BY gender
+      ORDER BY count DESC`
+    )
+    .all();
+}
+
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution };

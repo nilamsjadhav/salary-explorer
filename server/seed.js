@@ -17,8 +17,8 @@ function seed() {
   }
 
   const insert = db.prepare(`
-    INSERT OR IGNORE INTO employees (employeeId, name, department, designation, location, country, currency, joiningDate, salary)
-    VALUES (@employeeId, @name, @department, @designation, @location, @country, @currency, @joiningDate, @salary)
+    INSERT OR IGNORE INTO employees (employeeId, name, gender, department, designation, location, country, currency, joiningDate, salary)
+    VALUES (@employeeId, @name, @gender, @department, @designation, @location, @country, @currency, @joiningDate, @salary)
   `);
 
   const insertMany = db.transaction((items) => {
