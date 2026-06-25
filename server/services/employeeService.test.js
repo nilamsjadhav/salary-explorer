@@ -16,7 +16,7 @@ afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment } = require("./employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {
@@ -240,6 +240,32 @@ describe("getAverageSalaryByDepartment", () => {
   it("should filter by country", () => {
     const all = getAverageSalaryByDepartment();
     const india = getAverageSalaryByDepartment({ country: "India" });
+    expect(india.length).toBeLessThanOrEqual(all.length);
+  });
+});
+
+describe("getPayrollByDepartment", () => {
+  it("should return payroll for each department", () => {
+    const result = getPayrollByDepartment();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((r) => {
+      expect(r).toHaveProperty("department");
+      expect(r).toHaveProperty("totalPayroll");
+      expect(r).toHaveProperty("employeeCount");
+      expect(typeof r.totalPayroll).toBe("number");
+    });
+  });
+
+  it("should be sorted by totalPayroll descending", () => {
+    const result = getPayrollByDepartment();
+    for (let i = 1; i < result.length; i++) {
+      expect(result[i - 1].totalPayroll).toBeGreaterThanOrEqual(result[i].totalPayroll);
+    }
+  });
+
+  it("should filter by country", () => {
+    const all = getPayrollByDepartment();
+    const india = getPayrollByDepartment({ country: "India" });
     expect(india.length).toBeLessThanOrEqual(all.length);
   });
 });

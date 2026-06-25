@@ -199,4 +199,26 @@ function getAverageSalaryByDepartment({ country } = {}) {
     .all(params);
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment };
+function getPayrollByDepartment({ country } = {}) {
+  const db = getDb();
+  const conditions = [];
+  const params = {};
+
+  if (country) {
+    conditions.push("country = @country");
+    params.country = country;
+  }
+
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  return db
+    .prepare(
+      `SELECT department, SUM(salary) as totalPayroll, COUNT(*) as employeeCount, currency
+      FROM employees ${whereClause}
+      GROUP BY department
+      ORDER BY totalPayroll DESC`
+    )
+    .all(params);
+}
+
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment };

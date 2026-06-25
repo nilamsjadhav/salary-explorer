@@ -138,7 +138,7 @@ describe("getReports", () => {
     return { req, res };
   }
 
-  it("should return top5HighestPaidEmployees and averageSalaryByDepartment", () => {
+  it("should return top5HighestPaidEmployees, averageSalaryByDepartment, and payrollByDepartment", () => {
     const { req, res } = mockReqRes();
     getReports(req, res);
 
@@ -147,6 +147,8 @@ describe("getReports", () => {
     expect(result.top5HighestPaidEmployees.length).toBe(5);
     expect(result).toHaveProperty("averageSalaryByDepartment");
     expect(result.averageSalaryByDepartment.length).toBeGreaterThan(0);
+    expect(result).toHaveProperty("payrollByDepartment");
+    expect(result.payrollByDepartment.length).toBeGreaterThan(0);
   });
 
   it("should filter by country", () => {
