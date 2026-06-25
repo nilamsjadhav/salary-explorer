@@ -53,7 +53,7 @@ const SalaryDistributionChart = () => {
       {error && <Alert severity="error">Failed to load salary data: {error}</Alert>}
 
       {!loading && !error && (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={400}>
           <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="salaryRange" />

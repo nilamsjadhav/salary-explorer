@@ -60,6 +60,10 @@ const Dashboard = () => {
         </TextField>
       </Box>
 
+      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+        KPI Cards
+      </Typography>
+
       <Grid container spacing={3}>
         {STAT_CARDS.map(({ key, label, color }) => (
           <Grid item xs={12} sm={6} md={3} key={key}>
@@ -77,11 +81,15 @@ const Dashboard = () => {
         ))}
       </Grid>
 
-      <Grid container spacing={3} sx={{ mt: 1 }}>
-        <Grid item xs={12} md={6}>
+      <Typography variant="h6" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
+        Charts
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={6}>
           <DepartmentChart />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <SalaryDistributionChart />
         </Grid>
       </Grid>
