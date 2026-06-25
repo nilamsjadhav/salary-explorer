@@ -1,4 +1,4 @@
-const { getDashboardStats, getEmployeesByDepartment } = require("../services/employeeService");
+const { getDashboardStats, getEmployeesByDepartment, getSalaryDistribution } = require("../services/employeeService");
 
 function getDashboard(req, res) {
   try {
@@ -20,11 +20,11 @@ function getDepartmentChart(req, res) {
 
 function getSalaryChart(req, res) {
   try {
-    const data = getSalaryDistribution();
+    const data = getSalaryDistribution(req.query);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch salary distribution" });
   }
 }
 
-module.exports = { getDashboard, getDepartmentChart };
+module.exports = { getDashboard, getDepartmentChart, getSalaryChart };

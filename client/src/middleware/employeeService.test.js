@@ -95,4 +95,22 @@ describe("employeeService", () => {
       expect(result).toEqual(mockData);
     });
   });
+
+  describe("getSalaryDistribution", () => {
+    it("should call api.get with currency param", async () => {
+      const mockData = [{ salaryRange: "0-10 LPA", employeeCount: 3 }];
+      api.get.mockResolvedValue(mockData);
+
+      const result = await employeeService.getSalaryDistribution({ currency: "INR" });
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/salary-distribution?currency=INR");
+      expect(result).toEqual(mockData);
+    });
+
+    it("should call without params when no currency", async () => {
+      api.get.mockResolvedValue([]);
+      await employeeService.getSalaryDistribution();
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/salary-distribution");
+    });
+  });
 });

@@ -100,21 +100,53 @@ function getEmployeesByDepartment() {
     .all();
 }
 
-function getSalaryDistribution() {
-  const db = getDb();
-
-  const rows = db
-    .prepare(
-      `SELECT salary FROM employees`
-    )
-    .all();
-
-  const ranges = [
+const SALARY_RANGES = {
+  INR: [
     { min: 0, max: 1000000, label: "0-10 LPA" },
     { min: 1000000, max: 2000000, label: "10-20 LPA" },
     { min: 2000000, max: 3000000, label: "20-30 LPA" },
     { min: 3000000, max: Infinity, label: "30+ LPA" },
-  ];
+  ],
+  USD: [
+    { min: 0, max: 50000, label: "0-50K" },
+    { min: 50000, max: 100000, label: "50-100K" },
+    { min: 100000, max: 200000, label: "100-200K" },
+    { min: 200000, max: Infinity, label: "200K+" },
+  ],
+  EUR: [
+    { min: 0, max: 50000, label: "0-50K" },
+    { min: 50000, max: 100000, label: "50-100K" },
+    { min: 100000, max: 200000, label: "100-200K" },
+    { min: 200000, max: Infinity, label: "200K+" },
+  ],
+  GBP: [
+    { min: 0, max: 40000, label: "0-40K" },
+    { min: 40000, max: 80000, label: "40-80K" },
+    { min: 80000, max: 150000, label: "80-150K" },
+    { min: 150000, max: Infinity, label: "150K+" },
+  ],
+  JPY: [
+    { min: 0, max: 3000000, label: "0-3M" },
+    { min: 3000000, max: 6000000, label: "3-6M" },
+    { min: 6000000, max: 10000000, label: "6-10M" },
+    { min: 10000000, max: Infinity, label: "10M+" },
+  ],
+  AUD: [
+    { min: 0, max: 50000, label: "0-50K" },
+    { min: 50000, max: 100000, label: "50-100K" },
+    { min: 100000, max: 200000, label: "100-200K" },
+    { min: 200000, max: Infinity, label: "200K+" },
+  ],
+};
+
+function getSalaryDistribution({ currency = "INR" } = {}) {
+  const db = getDb();
+
+  const rows = db
+    .prepare(`SELECT salary FROM employees WHERE currency = @currency`)
+    .all({ currency });
+
+  const ranges = SALARY_RANGES[currency] || SALARY_RANGES.INR;
 
   return ranges.map(({ min, max, label }) => ({
     salaryRange: label,
@@ -122,4 +154,4 @@ function getSalaryDistribution() {
   }));
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment };
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution };

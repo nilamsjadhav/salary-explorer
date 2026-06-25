@@ -29,6 +29,13 @@ const employeeService = {
   },
 
   getDepartments: () => api.get("/api/dashboard/departments"),
+
+  getSalaryDistribution: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.currency) query.set("currency", params.currency);
+    const queryString = query.toString();
+    return api.get(`/api/dashboard/salary-distribution${queryString ? `?${queryString}` : ""}`);
+  },
 };
 
 export default employeeService;

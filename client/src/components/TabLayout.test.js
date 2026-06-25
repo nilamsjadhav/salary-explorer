@@ -21,6 +21,7 @@ describe("TabLayout", () => {
     employeeService.getAll.mockResolvedValue(mockResponse);
     employeeService.getDashboard.mockResolvedValue(mockDashboard);
     employeeService.getDepartments.mockResolvedValue([]);
+    employeeService.getSalaryDistribution.mockResolvedValue([]);
   });
 
   it("should render all three tabs", () => {

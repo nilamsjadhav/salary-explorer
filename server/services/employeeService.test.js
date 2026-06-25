@@ -12,7 +12,7 @@ afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats, getEmployeesByDepartment } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution } = require("./employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {
@@ -121,5 +121,37 @@ describe("getEmployeesByDepartment", () => {
     for (let i = 1; i < result.length; i++) {
       expect(result[i - 1].count).toBeGreaterThanOrEqual(result[i].count);
     }
+  });
+});
+
+describe("getSalaryDistribution", () => {
+  it("should return salary ranges with employee counts for default currency INR", () => {
+    const result = getSalaryDistribution();
+    expect(result.length).toBe(4);
+    result.forEach((row) => {
+      expect(row).toHaveProperty("salaryRange");
+      expect(row).toHaveProperty("employeeCount");
+      expect(typeof row.employeeCount).toBe("number");
+    });
+  });
+
+  it("should have INR LPA range labels by default", () => {
+    const result = getSalaryDistribution();
+    const labels = result.map((r) => r.salaryRange);
+    expect(labels).toEqual(["0-10 LPA", "10-20 LPA", "20-30 LPA", "30+ LPA"]);
+  });
+
+  it("should filter by currency and return appropriate ranges", () => {
+    const result = getSalaryDistribution({ currency: "USD" });
+    const labels = result.map((r) => r.salaryRange);
+    expect(labels).toEqual(["0-50K", "50-100K", "100-200K", "200K+"]);
+    const total = result.reduce((sum, r) => sum + r.employeeCount, 0);
+    expect(total).toBe(2);
+  });
+
+  it("should count employees correctly for INR", () => {
+    const result = getSalaryDistribution({ currency: "INR" });
+    const total = result.reduce((sum, r) => sum + r.employeeCount, 0);
+    expect(total).toBe(4);
   });
 });

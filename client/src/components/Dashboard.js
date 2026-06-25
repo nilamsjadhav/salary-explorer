@@ -4,6 +4,7 @@ import employeeService from "../middleware/employeeService";
 import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
 import DepartmentChart from "./DepartmentChart";
+import SalaryDistributionChart from "./SalaryDistributionChart";
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -79,6 +80,9 @@ const Dashboard = () => {
       <Grid container spacing={3} sx={{ mt: 1 }}>
         <Grid item xs={12} md={6}>
           <DepartmentChart />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SalaryDistributionChart />
         </Grid>
       </Grid>
     </Box>

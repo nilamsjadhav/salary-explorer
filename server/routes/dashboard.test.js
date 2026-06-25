@@ -88,3 +88,23 @@ describe("getDepartmentChart", () => {
     expect(result[0]).toHaveProperty("count");
   });
 });
+
+describe("getSalaryChart", () => {
+  const { getSalaryChart } = require("./dashboard");
+
+  function mockReqRes() {
+    const req = {};
+    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
+    return { req, res };
+  }
+
+  it("should return salary distribution data", () => {
+    const { req, res } = mockReqRes();
+    getSalaryChart(req, res);
+
+    const result = res.json.mock.calls[0][0];
+    expect(result.length).toBe(4);
+    expect(result[0]).toHaveProperty("salaryRange");
+    expect(result[0]).toHaveProperty("employeeCount");
+  });
+});

@@ -23,11 +23,13 @@ describe("Dashboard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     employeeService.getDepartments.mockResolvedValue([]);
+    employeeService.getSalaryDistribution.mockResolvedValue([]);
   });
 
   it("should show loading spinner initially", () => {
     employeeService.getDashboard.mockReturnValue(new Promise(() => {}));
     employeeService.getDepartments.mockReturnValue(new Promise(() => {}));
+    employeeService.getSalaryDistribution.mockReturnValue(new Promise(() => {}));
     render(<Dashboard />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
@@ -49,9 +51,9 @@ describe("Dashboard", () => {
     render(<Dashboard />);
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Currency")).toBeInTheDocument();
+      expect(screen.getAllByLabelText("Currency").length).toBeGreaterThanOrEqual(1);
     });
-    expect(screen.getByText("INR (₹)")).toBeInTheDocument();
+    expect(screen.getAllByText("INR (₹)").length).toBeGreaterThanOrEqual(1);
   });
 
   it("should fetch dashboard with default currency INR", async () => {
