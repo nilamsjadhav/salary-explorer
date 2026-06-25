@@ -1,5 +1,5 @@
 const { getDb } = require("./db");
-const employees = require("./data/employees_50.json");
+const employees = require("./data/fifty_employees.json");
 
 function seed() {
   const db = getDb();

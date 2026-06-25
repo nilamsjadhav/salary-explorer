@@ -1,6 +1,6 @@
 const { getDb, closeDb } = require("../db");
 const { seed } = require("../seed");
-const employees = require("../data/employees_1K.json");
+const employees = require("../data/fifty_employees.json");
 
 const totalEmployees = employees.length;
 const getEmployeeCountByCurrency = (currency) => employees.filter((employee) => employee.currency === currency).length;
@@ -16,7 +16,7 @@ afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid } = require("./employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {
@@ -182,5 +182,39 @@ describe("getGenderDistribution", () => {
     const result = getGenderDistribution();
     const total = result.reduce((sum, r) => sum + r.count, 0);
     expect(total).toBe(totalEmployees);
+  });
+});
+
+describe("getTop5HighestPaid", () => {
+  it("should return 5 employees", () => {
+    const result = getTop5HighestPaid();
+    expect(result.length).toBe(5);
+  });
+
+  it("should be sorted by salary descending", () => {
+    const result = getTop5HighestPaid();
+    for (let i = 1; i < result.length; i++) {
+      expect(result[i - 1].salary).toBeGreaterThanOrEqual(result[i].salary);
+    }
+  });
+
+  it("should filter by country", () => {
+    const result = getTop5HighestPaid({ country: "India" });
+    expect(result.length).toBeLessThanOrEqual(5);
+    result.forEach((r) => {
+      expect(r.currency).toBe("INR");
+    });
+  });
+
+  it("should return expected fields", () => {
+    const result = getTop5HighestPaid();
+    result.forEach((r) => {
+      expect(r).toHaveProperty("employeeId");
+      expect(r).toHaveProperty("name");
+      expect(r).toHaveProperty("department");
+      expect(r).toHaveProperty("designation");
+      expect(r).toHaveProperty("salary");
+      expect(r).toHaveProperty("currency");
+    });
   });
 });

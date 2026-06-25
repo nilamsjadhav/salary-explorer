@@ -155,4 +155,26 @@ function getGenderDistribution() {
     .all();
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution };
+function getTop5HighestPaid({ country } = {}) {
+  const db = getDb();
+  const conditions = [];
+  const params = {};
+
+  if (country) {
+    conditions.push("country = @country");
+    params.country = country;
+  }
+
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  return db
+    .prepare(
+      `SELECT employeeId, name, department, designation, salary, currency
+      FROM employees ${whereClause}
+      ORDER BY salary DESC
+      LIMIT 5`
+    )
+    .all(params);
+}
+
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid };

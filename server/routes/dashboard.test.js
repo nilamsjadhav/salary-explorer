@@ -128,3 +128,30 @@ describe("getGenderChart", () => {
     expect(result[0]).toHaveProperty("count");
   });
 });
+
+describe("getReports", () => {
+  const { getReports } = require("./dashboard");
+
+  function mockReqRes(query = {}) {
+    const req = { query };
+    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
+    return { req, res };
+  }
+
+  it("should return top5HighestPaidEmployees", () => {
+    const { req, res } = mockReqRes();
+    getReports(req, res);
+
+    const result = res.json.mock.calls[0][0];
+    expect(result).toHaveProperty("top5HighestPaidEmployees");
+    expect(result.top5HighestPaidEmployees.length).toBe(5);
+  });
+
+  it("should filter by country", () => {
+    const { req, res } = mockReqRes({ country: "India" });
+    getReports(req, res);
+
+    const result = res.json.mock.calls[0][0];
+    expect(result.top5HighestPaidEmployees.length).toBeLessThanOrEqual(5);
+  });
+});

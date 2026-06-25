@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { getDb, closeDb } = require("./db");
 const { seed } = require("./seed");
-const employees = require("./data/employees_1K.json");
+const employees = require("./data/fifty_employees.json");
 
 const totalEmployees = employees.length;
 
