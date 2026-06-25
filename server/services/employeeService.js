@@ -177,4 +177,26 @@ function getTop5HighestPaid({ country } = {}) {
     .all(params);
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid };
+function getAverageSalaryByDepartment({ country } = {}) {
+  const db = getDb();
+  const conditions = [];
+  const params = {};
+
+  if (country) {
+    conditions.push("country = @country");
+    params.country = country;
+  }
+
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+  return db
+    .prepare(
+      `SELECT department, ROUND(AVG(salary)) as averageSalary, currency
+      FROM employees ${whereClause}
+      GROUP BY department
+      ORDER BY averageSalary DESC`
+    )
+    .all(params);
+}
+
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment };

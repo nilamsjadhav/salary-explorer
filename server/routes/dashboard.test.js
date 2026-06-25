@@ -138,13 +138,15 @@ describe("getReports", () => {
     return { req, res };
   }
 
-  it("should return top5HighestPaidEmployees", () => {
+  it("should return top5HighestPaidEmployees and averageSalaryByDepartment", () => {
     const { req, res } = mockReqRes();
     getReports(req, res);
 
     const result = res.json.mock.calls[0][0];
     expect(result).toHaveProperty("top5HighestPaidEmployees");
     expect(result.top5HighestPaidEmployees.length).toBe(5);
+    expect(result).toHaveProperty("averageSalaryByDepartment");
+    expect(result.averageSalaryByDepartment.length).toBeGreaterThan(0);
   });
 
   it("should filter by country", () => {

@@ -1,4 +1,4 @@
-const { getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid } = require("../services/employeeService");
+const { getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment } = require("../services/employeeService");
 
 function getDashboard(req, res) {
   try {
@@ -39,7 +39,8 @@ function getGenderChart(req, res) {
 function getReports(req, res) {
   try {
     const top5HighestPaidEmployees = getTop5HighestPaid(req.query);
-    res.json({ top5HighestPaidEmployees });
+    const averageSalaryByDepartment = getAverageSalaryByDepartment(req.query);
+    res.json({ top5HighestPaidEmployees, averageSalaryByDepartment });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch reports" });
   }
