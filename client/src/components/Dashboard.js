@@ -45,6 +45,10 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+        KPI Cards
+      </Typography>
+
       <Box sx={{ mb: 3 }}>
         <TextField
           select
@@ -59,10 +63,6 @@ const Dashboard = () => {
           ))}
         </TextField>
       </Box>
-
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-        KPI Cards
-      </Typography>
 
       <Grid container spacing={3}>
         {STAT_CARDS.map(({ key, label, color }) => (
@@ -86,10 +86,10 @@ const Dashboard = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12}>
           <DepartmentChart />
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12}>
           <SalaryDistributionChart />
         </Grid>
       </Grid>

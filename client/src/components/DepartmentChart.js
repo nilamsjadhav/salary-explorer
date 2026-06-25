@@ -35,7 +35,7 @@ const DepartmentChart = () => {
       <Typography variant="h6" gutterBottom>
         Employees by Department
       </Typography>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={450}>
         <PieChart>
           <Pie
             data={data}
