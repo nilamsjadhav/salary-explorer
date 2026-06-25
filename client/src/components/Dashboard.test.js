@@ -24,12 +24,14 @@ describe("Dashboard", () => {
     jest.clearAllMocks();
     employeeService.getDepartments.mockResolvedValue([]);
     employeeService.getSalaryDistribution.mockResolvedValue([]);
+    employeeService.getGenderDistribution.mockResolvedValue([]);
   });
 
   it("should show loading spinner initially", () => {
     employeeService.getDashboard.mockReturnValue(new Promise(() => {}));
     employeeService.getDepartments.mockReturnValue(new Promise(() => {}));
     employeeService.getSalaryDistribution.mockReturnValue(new Promise(() => {}));
+    employeeService.getGenderDistribution.mockReturnValue(new Promise(() => {}));
     render(<Dashboard />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });

@@ -113,4 +113,16 @@ describe("employeeService", () => {
       expect(api.get).toHaveBeenCalledWith("/api/dashboard/salary-distribution");
     });
   });
+
+  describe("getGenderDistribution", () => {
+    it("should call api.get with /api/dashboard/gender", async () => {
+      const mockData = [{ gender: "male", count: 512 }];
+      api.get.mockResolvedValue(mockData);
+
+      const result = await employeeService.getGenderDistribution();
+
+      expect(api.get).toHaveBeenCalledWith("/api/dashboard/gender");
+      expect(result).toEqual(mockData);
+    });
+  });
 });

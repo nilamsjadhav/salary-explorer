@@ -36,6 +36,8 @@ const employeeService = {
     const queryString = query.toString();
     return api.get(`/api/dashboard/salary-distribution${queryString ? `?${queryString}` : ""}`);
   },
+
+  getGenderDistribution: () => api.get("/api/dashboard/gender"),
 };
 
 export default employeeService;
