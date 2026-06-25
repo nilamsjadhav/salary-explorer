@@ -17,6 +17,9 @@ import {
 } from "@mui/material";
 import employeeService from "../middleware/employeeService";
 
+const headerRowSx = { backgroundColor: "primary.main" };
+const headerCellSx = { color: "white", fontWeight: "bold" };
+
 const COUNTRIES = [
   "All",
   "Australia",
@@ -103,13 +106,13 @@ const ReportsSection = () => {
           <TableContainer component={Paper} variant="outlined">
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>#</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Department</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Country</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">Salary</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Currency</TableCell>
+                <TableRow sx={headerRowSx}>
+                  <TableCell sx={headerCellSx}>#</TableCell>
+                  <TableCell sx={headerCellSx}>Name</TableCell>
+                  <TableCell sx={headerCellSx}>Department</TableCell>
+                  <TableCell sx={headerCellSx}>Country</TableCell>
+                  <TableCell sx={headerCellSx} align="right">Salary</TableCell>
+                  <TableCell sx={headerCellSx}>Currency</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -142,10 +145,10 @@ const ReportsSection = () => {
           <TableContainer component={Paper} variant="outlined">
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>Department</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">Avg Salary</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Currency</TableCell>
+                <TableRow sx={headerRowSx}>
+                  <TableCell sx={headerCellSx}>Department</TableCell>
+                  <TableCell sx={headerCellSx} align="right">Avg Salary</TableCell>
+                  <TableCell sx={headerCellSx}>Currency</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -175,11 +178,11 @@ const ReportsSection = () => {
           <TableContainer component={Paper} variant="outlined">
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>Department</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">Total Payroll</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">Employees</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Currency</TableCell>
+                <TableRow sx={headerRowSx}>
+                  <TableCell sx={headerCellSx}>Department</TableCell>
+                  <TableCell sx={headerCellSx} align="right">Total Payroll</TableCell>
+                  <TableCell sx={headerCellSx} align="right">Employees</TableCell>
+                  <TableCell sx={headerCellSx}>Currency</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
