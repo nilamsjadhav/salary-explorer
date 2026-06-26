@@ -114,7 +114,8 @@ describe("EmployeeTable", () => {
 
     employeeService.getAll.mockResolvedValue(mockResponse);
 
-    const fromInput = screen.getByLabelText("From Date");
+    const fromLabel = screen.getByText("From Date");
+    const fromInput = fromLabel.closest("div").querySelector("input");
     await act(async () => {
       fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
     });
