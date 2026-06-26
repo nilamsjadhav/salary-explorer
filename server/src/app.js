@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const { getAllEmployees } = require("./routes/employees");
@@ -19,6 +20,13 @@ function createApp() {
   app.get("/api/dashboard/salary-distribution", getSalaryChart);
   app.get("/api/dashboard/gender", getGenderChart);
   app.get("/api/dashboard/reports", getReports);
+
+  // Serve React build in production
+  const clientBuild = path.join(__dirname, "..", "..", "client", "build");
+  app.use(express.static(clientBuild));
+  app.get("/{*splat}", (req, res) => {
+    res.sendFile(path.join(clientBuild, "index.html"));
+  });
 
   app.use(errorHandler);
 
