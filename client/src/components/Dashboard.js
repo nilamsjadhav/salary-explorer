@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Stack } from "@mui/material";
+import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
 import employeeService from "../middleware/employeeService";
 import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
@@ -47,9 +47,26 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ p: 2 }}>
-      {/* KPI Strip */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, flexWrap: "wrap" }}>
-        <Stack direction="row" spacing={1} sx={{ flexGrow: 1, flexWrap: "wrap", gap: 1 }}>
+      {/* KPI Section — wrapped in Paper to show association */}
+      <Paper sx={{ p: 2, mb: 2 }} variant="outlined">
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            KPI Cards
+          </Typography>
+          <TextField
+            select
+            label="Currency"
+            size="small"
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+            sx={{ width: 150 }}
+          >
+            {CURRENCIES.map((c) => (
+              <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
+            ))}
+          </TextField>
+        </Box>
+        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
           {STAT_CARDS.map(({ key, label, color }) => (
             <Chip
               key={key}
@@ -64,36 +81,34 @@ const Dashboard = () => {
               }}
             />
           ))}
-        </Stack>
-        <TextField
-          select
-          label="Currency"
-          size="small"
-          value={currency}
-          onChange={(e) => setCurrency(e.target.value)}
-          sx={{ width: 150, flexShrink: 0 }}
-        >
-          {CURRENCIES.map((c) => (
-            <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
-          ))}
-        </TextField>
-      </Box>
+        </Box>
+      </Paper>
 
-      {/* Charts — side by side */}
-      <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12}>
-          <DepartmentChart />
+      {/* Charts Section */}
+      <Paper sx={{ p: 2, mb: 2 }} variant="outlined">
+        <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+          Charts
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <DepartmentChart />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <SalaryDistributionChart />
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <GenderChart />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={7}>
-          <SalaryDistributionChart />
-        </Grid>
-        <Grid item xs={12} md={5}>
-          <GenderChart />
-        </Grid>
-      </Grid>
+      </Paper>
 
-      {/* Reports — collapsible accordion */}
-      <ReportsSection />
+      {/* Reports & Analytics Section */}
+      <Paper sx={{ p: 2 }} variant="outlined">
+        <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+          Reports &amp; Analytics
+        </Typography>
+        <ReportsSection />
+      </Paper>
     </Box>
   );
 };

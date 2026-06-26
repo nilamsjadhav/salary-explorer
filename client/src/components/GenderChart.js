@@ -31,11 +31,11 @@ const GenderChart = () => {
   }
 
   return (
-    <Paper sx={{ p: 2, height: "100%" }}>
+    <Paper sx={{ p: 2 }}>
       <Typography variant="h6" gutterBottom>
         Gender Distribution
       </Typography>
-      <ResponsiveContainer width="100%" height={240}>
+      <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie
             data={data}
