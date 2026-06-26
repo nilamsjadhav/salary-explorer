@@ -30,11 +30,10 @@ describe("TabLayout", () => {
     });
   });
 
-  it("should render all three tabs", () => {
+  it("should render both tabs", () => {
     render(<TabLayout />);
     expect(screen.getByText("Workforce Overview")).toBeInTheDocument();
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Compensation Insights")).toBeInTheDocument();
   });
 
   it("should show Workforce Overview tab by default", async () => {
@@ -50,12 +49,6 @@ describe("TabLayout", () => {
     await waitFor(() => {
       expect(screen.getByText("Average Salary")).toBeInTheDocument();
     });
-  });
-
-  it("should switch to Compensation Insights tab on click", () => {
-    render(<TabLayout />);
-    fireEvent.click(screen.getByText("Compensation Insights"));
-    expect(screen.getByText(/Salary comparisons/)).toBeInTheDocument();
   });
 
   it("should hide other tab content when switching", async () => {

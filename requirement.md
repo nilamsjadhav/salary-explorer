@@ -34,6 +34,7 @@ Feature 2: Dashboard
 * Charts:
     * Employees by Department
     * Salary Distribution
+    * Gender Distribution
 
 Feature 3: Reports & Analytics
 Provide pre-built HR reports.
@@ -47,7 +48,6 @@ Provide pre-built HR reports.
 
 **Leaving out**
 
-
 Feature 4: Suggested Questions
 Try asking:
 
@@ -56,22 +56,14 @@ Try asking:
 * How many employees joined this year?
 * Show salary distribution by department.
 
+**Reason** : Doesn't add much functionality beyond reports.
 
-Feature 5: Compensation analysis
+* Feature 5 : Export Results
+  * **Reason** : Export functionality is dependent on the availability of meaningful data views, filters, reports, and dashboards. So deferred to keep focus on core analytics and reporting.
 
-Help HR analyze compensation.
-
-Insights
-* Highest-paying department
-* Lowest-paying department
-* Department salary comparison
-
-
-* Feature 6 : Export Results
-  * **Reason** : Export functionality is dependent on the availability of meaningful data views, filters, reports, and dashboards. The initial focus will be on building and validating these core analytical capabilities. Export options can be added once the reporting experience is finalized.
-   * **Reason** : This is an advanced capability and is deferred to keep focus on core analytics and reporting.
-* Feature 7: Import Data
+* Feature 6: Import Data
   * **Reason** : A seeded dataset will be used to populate the system with employee records for initial development and testing. Therefore, data import functionality is not required
+  
 * Feature 8: Employee management (Add/Edit/Delete)
-  * **Reason** : The application uses seeded employee data, so employee creation and maintenance are not required.
+  * **Reason** : The application uses seeded employee data, so employee creation and maintenance are not required for now.
 

@@ -3,12 +3,10 @@ import { Box, Tabs, Tab } from "@mui/material";
 import TabPanel from "./TabPanel";
 import EmployeeTable from "./EmployeeTable";
 import Dashboard from "./Dashboard";
-import CompensationInsights from "./CompensationInsights";
 
 const TAB_CONFIG = [
   { label: "Workforce Overview", Component: EmployeeTable },
   { label: "Dashboard", Component: Dashboard },
-  { label: "Compensation Insights", Component: CompensationInsights },
 ];
 
 const TabLayout = () => {
