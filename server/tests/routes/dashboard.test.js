@@ -1,25 +1,26 @@
-const { getDb, closeDb } = require("../db");
-const { seed } = require("../seed");
+const path = require("path");
+const { getDb, closeDb } = require("../../src/database/db");
+const { seed } = require("../../src/database/seed");
 
-process.env.DB_PATH = ":memory:";
+const DATA_PATH = path.join(__dirname, "..", "..", "src", "data", "fifty_employees.json");
 
 beforeAll(() => {
-  getDb();
-  seed();
+  getDb(":memory:");
+  seed(DATA_PATH);
 });
 
 afterAll(() => {
   closeDb();
 });
 
-describe("getDashboard", () => {
-  const { getDashboard } = require("./dashboard");
+function mockReqRes(query = {}) {
+  const req = { query };
+  const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
+  return { req, res };
+}
 
-  function mockReqRes() {
-    const req = {};
-    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
-    return { req, res };
-  }
+describe("getDashboard", () => {
+  const { getDashboard } = require("../../src/routes/dashboard");
 
   it("should return salary stats", () => {
     const { req, res } = mockReqRes();
@@ -54,13 +55,13 @@ describe("getDashboard", () => {
 
   it("should return 500 when db throws an error", () => {
     jest.resetModules();
-    jest.mock("../db", () => ({
+    jest.mock("../../src/database/db", () => ({
       getDb: () => ({
         prepare: () => { throw new Error("DB error"); },
       }),
     }));
 
-    const { getDashboard: handler } = require("./dashboard");
+    const { getDashboard: handler } = require("../../src/routes/dashboard");
     const { req, res } = mockReqRes();
     handler(req, res);
 
@@ -70,13 +71,7 @@ describe("getDashboard", () => {
 });
 
 describe("getDepartmentChart", () => {
-  const { getDepartmentChart } = require("./dashboard");
-
-  function mockReqRes() {
-    const req = {};
-    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
-    return { req, res };
-  }
+  const { getDepartmentChart } = require("../../src/routes/dashboard");
 
   it("should return department counts", () => {
     const { req, res } = mockReqRes();
@@ -90,13 +85,7 @@ describe("getDepartmentChart", () => {
 });
 
 describe("getSalaryChart", () => {
-  const { getSalaryChart } = require("./dashboard");
-
-  function mockReqRes() {
-    const req = {};
-    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
-    return { req, res };
-  }
+  const { getSalaryChart } = require("../../src/routes/dashboard");
 
   it("should return salary distribution data", () => {
     const { req, res } = mockReqRes();
@@ -110,13 +99,7 @@ describe("getSalaryChart", () => {
 });
 
 describe("getGenderChart", () => {
-  const { getGenderChart } = require("./dashboard");
-
-  function mockReqRes() {
-    const req = {};
-    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
-    return { req, res };
-  }
+  const { getGenderChart } = require("../../src/routes/dashboard");
 
   it("should return gender distribution data", () => {
     const { req, res } = mockReqRes();
@@ -130,13 +113,7 @@ describe("getGenderChart", () => {
 });
 
 describe("getReports", () => {
-  const { getReports } = require("./dashboard");
-
-  function mockReqRes(query = {}) {
-    const req = { query };
-    const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
-    return { req, res };
-  }
+  const { getReports } = require("../../src/routes/dashboard");
 
   it("should return top5HighestPaidEmployees, averageSalaryByDepartment, and payrollByDepartment", () => {
     const { req, res } = mockReqRes();

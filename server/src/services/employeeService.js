@@ -1,4 +1,5 @@
-const { getDb } = require("../db");
+const { getDb } = require("../database/db");
+const { formatRangeLabel } = require("../utils/formatters");
 
 function getEmployees({ search, department, currency, minSalary, maxSalary, fromDate, toDate, page = 1, pageSize = 20 } = {}) {
   const db = getDb();
@@ -98,15 +99,6 @@ function getEmployeesByDepartment() {
       ORDER BY count DESC`
     )
     .all();
-}
-
-function formatRangeLabel(min, max, isLast) {
-  const format = (val) => {
-    if (val >= 1000000) return `${(val / 1000000).toFixed(1)}M`;
-    if (val >= 1000) return `${(val / 1000).toFixed(0)}K`;
-    return val.toString();
-  };
-  return isLast ? `${format(min)}+` : `${format(min)}-${format(max)}`;
 }
 
 function getSalaryDistribution({ currency = "INR" } = {}) {

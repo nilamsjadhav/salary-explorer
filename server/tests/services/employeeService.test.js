@@ -1,22 +1,23 @@
-const { getDb, closeDb } = require("../db");
-const { seed } = require("../seed");
-const employees = require("../data/fifty_employees.json");
+const path = require("path");
+const { getDb, closeDb } = require("../../src/database/db");
+const { seed } = require("../../src/database/seed");
+const employees = require("../../src/data/fifty_employees.json");
 
 const totalEmployees = employees.length;
 const getEmployeeCountByCurrency = (currency) => employees.filter((employee) => employee.currency === currency).length;
 
-process.env.DB_PATH = ":memory:";
+const DATA_PATH = path.join(__dirname, "..", "..", "src", "data", "fifty_employees.json");
 
 beforeAll(() => {
-  getDb();
-  seed();
+  getDb(":memory:");
+  seed(DATA_PATH);
 });
 
 afterAll(() => {
   closeDb();
 });
 
-const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment } = require("./employeeService");
+const { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment } = require("../../src/services/employeeService");
 
 describe("getEmployees", () => {
   it("should return paginated response with all employees", () => {

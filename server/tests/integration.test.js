@@ -1,34 +1,55 @@
 const request = require("supertest");
-const { getDb, closeDb } = require("./db");
-const { seed } = require("./seed");
-const employees = require("./data/fifty_employees.json");
+const path = require("path");
+const { getDb, closeDb } = require("../src/database/db");
+const { seed } = require("../src/database/seed");
+const { createApp } = require("../src/app");
+const employees = require("../src/data/fifty_employees.json");
 
 const totalEmployees = employees.length;
 const defaultPageSize = 20;
-
-// Use in-memory DB for tests
-process.env.DB_PATH = ":memory:";
-
-const app = require("./app");
+const DATA_PATH = path.join(__dirname, "..", "src", "data", "fifty_employees.json");
+const app = createApp();
 
 beforeAll(() => {
-  getDb();
-  seed();
+  getDb(":memory:");
+  seed(DATA_PATH);
 });
 
 afterAll(() => {
   closeDb();
 });
 
-describe("GET /api/employees", () => {
-  it("should return 200 status code", async () => {
+describe("App Integration", () => {
+  it("should have CORS enabled", async () => {
     const res = await request(app).get("/api/employees");
-    expect(res.statusCode).toBe(200);
+    expect(res.headers["access-control-allow-origin"]).toBe("*");
   });
 
   it("should return JSON content type", async () => {
     const res = await request(app).get("/api/employees");
     expect(res.headers["content-type"]).toMatch(/json/);
+  });
+
+  it("should return 404 for unknown routes", async () => {
+    const res = await request(app).get("/api/unknown");
+    expect(res.statusCode).toBe(404);
+  });
+});
+
+describe("GET /healthz", () => {
+  it("should return 200 with status ok", async () => {
+    const res = await request(app).get("/healthz");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("status", "ok");
+    expect(res.body).toHaveProperty("uptime");
+    expect(typeof res.body.uptime).toBe("number");
+  });
+});
+
+describe("GET /api/employees", () => {
+  it("should return 200 status code", async () => {
+    const res = await request(app).get("/api/employees");
+    expect(res.statusCode).toBe(200);
   });
 
   it("should return all employees in paginated results", async () => {
@@ -49,17 +70,5 @@ describe("GET /api/employees", () => {
     expect(employee).toHaveProperty("currency");
     expect(employee).toHaveProperty("joiningDate");
     expect(employee).toHaveProperty("salary");
-  });
-
-  it("should include CORS headers", async () => {
-    const res = await request(app).get("/api/employees");
-    expect(res.headers["access-control-allow-origin"]).toBe("*");
-  });
-});
-
-describe("Unknown routes", () => {
-  it("should return 404 for unknown endpoints", async () => {
-    const res = await request(app).get("/api/unknown");
-    expect(res.statusCode).toBe(404);
   });
 });

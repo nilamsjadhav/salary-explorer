@@ -1,14 +1,14 @@
-const { getDb, closeDb } = require("../db");
-const { seed } = require("../seed");
-const employees = require("../data/fifty_employees.json");
+const path = require("path");
+const { getDb, closeDb } = require("../../src/database/db");
+const { seed } = require("../../src/database/seed");
+const employees = require("../../src/data/fifty_employees.json");
 
 const totalEmployees = employees.length;
-
-process.env.DB_PATH = ":memory:";
+const DATA_PATH = path.join(__dirname, "..", "..", "src", "data", "fifty_employees.json");
 
 beforeAll(() => {
-  getDb();
-  seed();
+  getDb(":memory:");
+  seed(DATA_PATH);
 });
 
 afterAll(() => {
@@ -16,7 +16,7 @@ afterAll(() => {
 });
 
 describe("getAllEmployees", () => {
-  const { getAllEmployees } = require("./employees");
+  const { getAllEmployees } = require("../../src/routes/employees");
 
   function mockReqRes(query = {}) {
     const req = { query };
@@ -117,7 +117,7 @@ describe("getAllEmployees", () => {
 
   it("should return 500 when db throws an error", () => {
     jest.resetModules();
-    jest.mock("../db", () => ({
+    jest.mock("../../src/database/db", () => ({
       getDb: () => ({
         prepare: () => {
           throw new Error("DB error");
@@ -125,7 +125,7 @@ describe("getAllEmployees", () => {
       }),
     }));
 
-    const { getAllEmployees: handler } = require("./employees");
+    const { getAllEmployees: handler } = require("../../src/routes/employees");
     const { req, res } = mockReqRes();
     handler(req, res);
 

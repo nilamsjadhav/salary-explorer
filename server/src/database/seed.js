@@ -1,7 +1,8 @@
 const { getDb } = require("./db");
-const employees = require("./data/fifty_employees.json");
 
-function seed() {
+function seed(dataPath) {
+  if (!dataPath) throw new Error("dataPath is required for seed()");
+  const employees = require(dataPath);
   const db = getDb();
 
   const count = db.prepare("SELECT COUNT(*) as count FROM employees").get();
