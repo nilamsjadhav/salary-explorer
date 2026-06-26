@@ -5,3 +5,4 @@ server/node_modules
 *.db-shm
 *.db-wal
 data/employees_1K.json
+server/src/data/employees.json

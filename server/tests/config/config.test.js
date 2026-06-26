@@ -41,7 +41,7 @@ describe("config", () => {
   it("should return default dataPath pointing to JSON file", () => {
     delete process.env.DATA_PATH;
     const config = require("../../src/config");
-    expect(config.dataPath).toContain("fifty_employees.json");
+    expect(config.dataPath).toContain("employees.json");
   });
 
   it("should use DATA_PATH from environment", () => {
