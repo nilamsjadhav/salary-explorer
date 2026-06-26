@@ -18,7 +18,7 @@ const SalaryDistributionChart = () => {
   return (
     <Paper sx={{ p: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-        <Typography variant="h6">Salary Distribution</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>Salary Distribution</Typography>
         <TextField
           select
           label="Currency"

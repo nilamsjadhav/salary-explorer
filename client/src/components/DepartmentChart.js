@@ -20,14 +20,14 @@ const DepartmentChart = () => {
 
   return (
     <Paper sx={{ p: 2 }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="subtitle1" sx={{ fontWeight: "bold" }} gutterBottom>
         Employees by Department
       </Typography>
       <ResponsiveContainer width="100%" height={Math.max(200, (data || []).length * 28)}>
-        <BarChart data={data || []} layout="vertical" margin={{ top: 5, right: 15, left: 80, bottom: 5 }}>
+        <BarChart data={data || []} layout="vertical" margin={{ top: 5, right: 15, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" allowDecimals={false} />
-          <YAxis type="category" dataKey="department" width={90} />
+          <YAxis type="category" dataKey="department" width={140} tick={{ fontSize: 13 }} />
           <Tooltip formatter={(value) => [`${value} employees`]} />
           <Bar dataKey="count" name="Employees" radius={[0, 4, 4, 0]}>
             {(data || []).map((_, index) => (
