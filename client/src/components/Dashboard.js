@@ -26,7 +26,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 1 }}>
       {/* KPI Section — wrapped in Paper to show association */}
       <Paper sx={{ p: 2, mb: 2 }} variant="outlined">
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
@@ -65,11 +65,11 @@ const Dashboard = () => {
       </Paper>
 
       {/* Charts Section */}
-      <Paper sx={{ p: 2, mb: 2 }} variant="outlined">
+      <Paper sx={{ px: 1, py: 2, mb: 2 }} variant="outlined">
         <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
           Charts
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={12}>
             <DepartmentChart />
           </Grid>

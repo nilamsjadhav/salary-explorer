@@ -43,9 +43,9 @@ const SalaryDistributionChart = () => {
 
       {!loading && !error && (
         <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={data || []} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <BarChart data={data || []} margin={{ top: 5, right: 15, left: 10, bottom: 40 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="salaryRange" />
+            <XAxis dataKey="salaryRange" angle={-25} textAnchor="end" tick={{ fontSize: 12 }} interval={0} />
             <YAxis allowDecimals={false} label={{ value: "Employees", angle: -90, position: "insideLeft" }} />
             <Tooltip formatter={(value) => [value, "Employees"]} />
             <Bar dataKey="employeeCount" name="Employees" radius={[4, 4, 0, 0]}>

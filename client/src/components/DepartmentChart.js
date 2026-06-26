@@ -24,7 +24,7 @@ const DepartmentChart = () => {
         Employees by Department
       </Typography>
       <ResponsiveContainer width="100%" height={Math.max(200, (data || []).length * 28)}>
-        <BarChart data={data || []} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
+        <BarChart data={data || []} layout="vertical" margin={{ top: 5, right: 15, left: 80, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" allowDecimals={false} />
           <YAxis type="category" dataKey="department" width={90} />
