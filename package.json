@@ -5,9 +5,9 @@
   },
   "scripts": {
     "buildServer": "cd server && npm install",
-    "buildClient": "cd client && npm run build",
+    "buildClient": "cd client && npm install && npm run build",
     "client": "cd client && npm start",
-    "server": "cd server && nodemon server.js",
+    "server": "cd server && nodemon src/server.js",
     "dev": "concurrently \"npm run client\" \"npm run server\""
   }
 }
