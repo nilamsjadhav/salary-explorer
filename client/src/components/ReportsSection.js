@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -16,6 +16,7 @@ import {
   Grid,
 } from "@mui/material";
 import employeeService from "../middleware/employeeService";
+import useApiData from "../hooks/useApiData";
 
 const headerRowSx = { backgroundColor: "primary.main" };
 const headerCellSx = { color: "white", fontWeight: "bold" };
@@ -40,25 +41,11 @@ const COUNTRIES = [
 ];
 
 const ReportsSection = () => {
-  const [reports, setReports] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [country, setCountry] = useState("All");
-
-  const fetchReports = useCallback(() => {
-    setLoading(true);
-    setError(null);
-    const params = country !== "All" ? { country } : {};
-    employeeService
-      .getReports(params)
-      .then((data) => setReports(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [country]);
-
-  useEffect(() => {
-    fetchReports();
-  }, [fetchReports]);
+  const { data: reports, loading, error } = useApiData(
+    () => employeeService.getReports(country !== "All" ? { country } : {}),
+    [country]
+  );
 
   if (loading) {
     return (

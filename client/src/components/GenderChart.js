@@ -1,22 +1,12 @@
-import { useEffect, useState } from "react";
 import { Box, CircularProgress, Alert, Paper, Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import employeeService from "../middleware/employeeService";
+import useApiData from "../hooks/useApiData";
 
 const COLORS = ["#5c6bc0", "#66bb6a"];
 
 const GenderChart = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    employeeService
-      .getGenderDistribution()
-      .then((result) => setData(result))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, loading, error } = useApiData(() => employeeService.getGenderDistribution(), []);
 
   if (loading) {
     return (
@@ -46,7 +36,7 @@ const GenderChart = () => {
             outerRadius="75%"
             label={({ gender, count }) => `${gender} (${count})`}
           >
-            {data.map((_, index) => (
+            {(data || []).map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>

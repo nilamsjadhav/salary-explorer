@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
-import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
+import { useState } from "react";
+import { Box, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
 import employeeService from "../middleware/employeeService";
+import useApiData from "../hooks/useApiData";
 import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
 import DepartmentChart from "./DepartmentChart";
@@ -9,25 +10,11 @@ import GenderChart from "./GenderChart";
 import ReportsSection from "./ReportsSection";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currency, setCurrency] = useState("INR");
-
-  const fetchDashboard = useCallback(() => {
-    setLoading(true);
-    setError(null);
-
-    employeeService
-      .getDashboard({ currency })
-      .then((data) => setStats(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [currency]);
-
-  useEffect(() => {
-    fetchDashboard();
-  }, [fetchDashboard]);
+  const { data: stats, loading, error } = useApiData(
+    () => employeeService.getDashboard({ currency }),
+    [currency]
+  );
 
   if (loading) {
     return (

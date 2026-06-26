@@ -1,30 +1,18 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import { Box, CircularProgress, Alert, Paper, Typography, TextField, MenuItem } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
 import employeeService from "../middleware/employeeService";
+import useApiData from "../hooks/useApiData";
 import { CURRENCIES } from "../constants/currencies";
 
 const COLORS = ["#1976d2", "#388e3c", "#f57c00", "#d32f2f"];
 
 const SalaryDistributionChart = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currency, setCurrency] = useState("INR");
-
-  const fetchData = useCallback(() => {
-    setLoading(true);
-    setError(null);
-    employeeService
-      .getSalaryDistribution({ currency })
-      .then((result) => setData(result))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [currency]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const { data, loading, error } = useApiData(
+    () => employeeService.getSalaryDistribution({ currency }),
+    [currency]
+  );
 
   return (
     <Paper sx={{ p: 2 }}>
@@ -54,13 +42,13 @@ const SalaryDistributionChart = () => {
 
       {!loading && !error && (
         <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <BarChart data={data || []} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="salaryRange" />
             <YAxis allowDecimals={false} label={{ value: "Employees", angle: -90, position: "insideLeft" }} />
             <Tooltip formatter={(value) => [value, "Employees"]} />
             <Bar dataKey="employeeCount" name="Employees" radius={[4, 4, 0, 0]}>
-              {data.map((_, index) => (
+              {(data || []).map((_, index) => (
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
             </Bar>
