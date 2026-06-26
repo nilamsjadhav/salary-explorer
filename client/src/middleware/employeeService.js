@@ -1,49 +1,35 @@
 import api from "./api";
+import { buildUrl } from "../utils/buildUrl";
 
 const employeeService = {
   getAll: (params = {}) => {
-    const query = new URLSearchParams();
-
-    if (params.search) query.set("search", params.search);
-    if (params.department) query.set("department", params.department);
-    if (params.currency) query.set("currency", params.currency);
-    if (params.minSalary) query.set("minSalary", params.minSalary);
-    if (params.maxSalary) query.set("maxSalary", params.maxSalary);
-    if (params.fromDate) query.set("fromDate", params.fromDate);
-    if (params.toDate) query.set("toDate", params.toDate);
-    if (params.page) query.set("page", params.page);
-    if (params.pageSize) query.set("pageSize", params.pageSize);
-
-    const queryString = query.toString();
-    const endpoint = `/api/employees${queryString ? `?${queryString}` : ""}`;
-
-    return api.get(endpoint);
+    return api.get(buildUrl("/api/employees", {
+      search: params.search,
+      department: params.department,
+      currency: params.currency,
+      minSalary: params.minSalary,
+      maxSalary: params.maxSalary,
+      fromDate: params.fromDate,
+      toDate: params.toDate,
+      page: params.page,
+      pageSize: params.pageSize,
+    }));
   },
 
   getDashboard: (params = {}) => {
-    const query = new URLSearchParams();
-    if (params.currency) query.set("currency", params.currency);
-    const queryString = query.toString();
-    const endpoint = `/api/dashboard${queryString ? `?${queryString}` : ""}`;
-    return api.get(endpoint);
+    return api.get(buildUrl("/api/dashboard", { currency: params.currency }));
   },
 
   getDepartments: () => api.get("/api/dashboard/departments"),
 
   getSalaryDistribution: (params = {}) => {
-    const query = new URLSearchParams();
-    if (params.currency) query.set("currency", params.currency);
-    const queryString = query.toString();
-    return api.get(`/api/dashboard/salary-distribution${queryString ? `?${queryString}` : ""}`);
+    return api.get(buildUrl("/api/dashboard/salary-distribution", { currency: params.currency }));
   },
 
   getGenderDistribution: () => api.get("/api/dashboard/gender"),
 
   getReports: (params = {}) => {
-    const query = new URLSearchParams();
-    if (params.country) query.set("country", params.country);
-    const queryString = query.toString();
-    return api.get(`/api/dashboard/reports${queryString ? `?${queryString}` : ""}`);
+    return api.get(buildUrl("/api/dashboard/reports", { country: params.country }));
   },
 };
 
