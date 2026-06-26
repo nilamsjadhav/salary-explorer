@@ -18,25 +18,7 @@ import useApiData from "../hooks/useApiData";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";
 import { headerRowSx, headerCellSx } from "../constants/tableStyles";
-
-const COUNTRIES = [
-  "All",
-  "Australia",
-  "Brazil",
-  "Canada",
-  "China",
-  "France",
-  "Germany",
-  "India",
-  "Japan",
-  "Mexico",
-  "Netherlands",
-  "Singapore",
-  "South Korea",
-  "UAE",
-  "UK",
-  "USA",
-];
+import { COUNTRIES } from "../constants/countries";
 
 const ReportsSection = () => {
   const [country, setCountry] = useState("All");
