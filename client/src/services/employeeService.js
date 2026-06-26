@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "../middleware/api";
 import { buildUrl } from "../utils/buildUrl";
 
 const employeeService = {
