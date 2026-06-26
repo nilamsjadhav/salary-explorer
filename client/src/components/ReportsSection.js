@@ -17,9 +17,7 @@ import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";
-
-const headerRowSx = { backgroundColor: "primary.main" };
-const headerCellSx = { color: "white", fontWeight: "bold" };
+import { headerRowSx, headerCellSx } from "../constants/tableStyles";
 
 const COUNTRIES = [
   "All",

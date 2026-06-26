@@ -16,8 +16,7 @@ import FilterPanel from "./FilterPanel";
 import Pagination from "./Pagination";
 import EmployeeRow from "./EmployeeRow";
 import useEmployeeFilters from "../hooks/useEmployeeFilters";
-
-const headerCellSx = { color: "white", fontWeight: "bold" };
+import { headerRowSx, headerCellSx } from "../constants/tableStyles";
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -102,7 +101,7 @@ const EmployeeTable = () => {
       <TableContainer component={Paper} elevation={3}>
         <Table sx={{ "& .MuiTableCell-root": { py: 1.5, px: 2.5 } }}>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "primary.main" }}>
+            <TableRow sx={headerRowSx}>
               <TableCell sx={headerCellSx}>Employee ID</TableCell>
               <TableCell sx={headerCellSx}>Name</TableCell>
               <TableCell sx={headerCellSx}>Department</TableCell>
