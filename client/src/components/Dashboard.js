@@ -8,7 +8,6 @@ import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
 import DepartmentChart from "./DepartmentChart";
 import SalaryDistributionChart from "./SalaryDistributionChart";
-import GenderChart from "./GenderChart";
 import ReportsSection from "./ReportsSection";
 
 const Dashboard = () => {
@@ -74,11 +73,8 @@ const Dashboard = () => {
           <Grid item xs={12}>
             <DepartmentChart />
           </Grid>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12}>
             <SalaryDistributionChart />
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <GenderChart />
           </Grid>
         </Grid>
       </Paper>

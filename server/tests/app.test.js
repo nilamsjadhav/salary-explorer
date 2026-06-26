@@ -65,11 +65,6 @@ describe("Route mounting", () => {
     expect(res.status).toBe(200);
   });
 
-  it("should mount /api/dashboard/gender", async () => {
-    const res = await request(app).get("/api/dashboard/gender");
-    expect(res.status).toBe(200);
-  });
-
   it("should mount /api/dashboard/reports", async () => {
     const res = await request(app).get("/api/dashboard/reports");
     expect(res.status).toBe(200);

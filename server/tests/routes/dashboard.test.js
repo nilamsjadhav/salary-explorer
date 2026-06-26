@@ -98,20 +98,6 @@ describe("getSalaryChart", () => {
   });
 });
 
-describe("getGenderChart", () => {
-  const { getGenderChart } = require("../../src/routes/dashboard");
-
-  it("should return gender distribution data", () => {
-    const { req, res } = mockReqRes();
-    getGenderChart(req, res);
-
-    const result = res.json.mock.calls[0][0];
-    expect(result.length).toBeGreaterThan(0);
-    expect(result[0]).toHaveProperty("gender");
-    expect(result[0]).toHaveProperty("count");
-  });
-});
-
 describe("getReports", () => {
   const { getReports } = require("../../src/routes/dashboard");
 

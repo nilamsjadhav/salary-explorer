@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const pinoHttp = require("pino-http");
 const { getAllEmployees } = require("./routes/employees");
-const { getDashboard, getDepartmentChart, getSalaryChart, getGenderChart, getReports } = require("./routes/dashboard");
+const { getDashboard, getDepartmentChart, getSalaryChart, getReports } = require("./routes/dashboard");
 const { errorHandler } = require("./middleware/errorHandler");
 
 function createApp() {
@@ -40,7 +40,6 @@ function createApp() {
   app.get("/api/dashboard", getDashboard);
   app.get("/api/dashboard/departments", getDepartmentChart);
   app.get("/api/dashboard/salary-distribution", getSalaryChart);
-  app.get("/api/dashboard/gender", getGenderChart);
   app.get("/api/dashboard/reports", getReports);
 
   // Serve React build in production

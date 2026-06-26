@@ -114,18 +114,6 @@ describe("employeeService", () => {
     });
   });
 
-  describe("getGenderDistribution", () => {
-    it("should call api.get with /api/dashboard/gender", async () => {
-      const mockData = [{ gender: "male", count: 512 }];
-      api.get.mockResolvedValue(mockData);
-
-      const result = await employeeService.getGenderDistribution();
-
-      expect(api.get).toHaveBeenCalledWith("/api/dashboard/gender");
-      expect(result).toEqual(mockData);
-    });
-  });
-
   describe("getReports", () => {
     it("should call api.get with /api/dashboard/reports when no params", async () => {
       const mockData = { top5HighestPaidEmployees: [], averageSalaryByDepartment: [], payrollByDepartment: [] };

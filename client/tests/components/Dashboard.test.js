@@ -24,7 +24,6 @@ describe("Dashboard", () => {
     jest.clearAllMocks();
     employeeService.getDepartments.mockResolvedValue([]);
     employeeService.getSalaryDistribution.mockResolvedValue([]);
-    employeeService.getGenderDistribution.mockResolvedValue([]);
     employeeService.getReports.mockResolvedValue({
       top5HighestPaidEmployees: [],
       averageSalaryByDepartment: [],
@@ -36,7 +35,6 @@ describe("Dashboard", () => {
     employeeService.getDashboard.mockReturnValue(new Promise(() => {}));
     employeeService.getDepartments.mockReturnValue(new Promise(() => {}));
     employeeService.getSalaryDistribution.mockReturnValue(new Promise(() => {}));
-    employeeService.getGenderDistribution.mockReturnValue(new Promise(() => {}));
     employeeService.getReports.mockReturnValue(new Promise(() => {}));
     render(<Dashboard />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();

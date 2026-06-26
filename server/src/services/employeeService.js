@@ -134,19 +134,6 @@ function getSalaryDistribution({ currency = "INR" } = {}) {
   return ranges;
 }
 
-function getGenderDistribution() {
-  const db = getDb();
-
-  return db
-    .prepare(
-      `SELECT gender, COUNT(*) as count
-      FROM employees
-      GROUP BY gender
-      ORDER BY count DESC`
-    )
-    .all();
-}
-
 function getTop5HighestPaid({ country } = {}) {
   const db = getDb();
   const conditions = [];
@@ -213,4 +200,4 @@ function getPayrollByDepartment({ country } = {}) {
     .all(params);
 }
 
-module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getGenderDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment };
+module.exports = { getEmployees, getDashboardStats, getEmployeesByDepartment, getSalaryDistribution, getTop5HighestPaid, getAverageSalaryByDepartment, getPayrollByDepartment };

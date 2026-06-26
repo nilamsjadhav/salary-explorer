@@ -22,7 +22,6 @@ describe("TabLayout", () => {
     employeeService.getDashboard.mockResolvedValue(mockDashboard);
     employeeService.getDepartments.mockResolvedValue([]);
     employeeService.getSalaryDistribution.mockResolvedValue([]);
-    employeeService.getGenderDistribution.mockResolvedValue([]);
     employeeService.getReports.mockResolvedValue({
       top5HighestPaidEmployees: [],
       averageSalaryByDepartment: [],

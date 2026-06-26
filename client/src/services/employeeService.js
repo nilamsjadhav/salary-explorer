@@ -26,8 +26,6 @@ const employeeService = {
     return api.get(buildUrl("/api/dashboard/salary-distribution", { currency: params.currency }));
   },
 
-  getGenderDistribution: () => api.get("/api/dashboard/gender"),
-
   getReports: (params = {}) => {
     return api.get(buildUrl("/api/dashboard/reports", { country: params.country }));
   },
