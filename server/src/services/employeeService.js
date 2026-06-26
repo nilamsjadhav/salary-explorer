@@ -1,5 +1,6 @@
 const { getDb } = require("../database/db");
 const { formatRangeLabel } = require("../utils/formatters");
+const { buildWhereClause } = require("../utils/buildWhereClause");
 
 function getEmployees({ search, department, currency, minSalary, maxSalary, fromDate, toDate, page = 1, pageSize = 20 } = {}) {
   const db = getDb();
@@ -136,20 +137,12 @@ function getSalaryDistribution({ currency = "INR" } = {}) {
 
 function getTop5HighestPaid({ country } = {}) {
   const db = getDb();
-  const conditions = [];
-  const params = {};
-
-  if (country) {
-    conditions.push("country = @country");
-    params.country = country;
-  }
-
-  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+  const { clause, params } = buildWhereClause({ country });
 
   return db
     .prepare(
       `SELECT employeeId, name, department, designation, salary, currency
-      FROM employees ${whereClause}
+      FROM employees ${clause}
       ORDER BY salary DESC
       LIMIT 5`
     )
@@ -158,20 +151,12 @@ function getTop5HighestPaid({ country } = {}) {
 
 function getAverageSalaryByDepartment({ country } = {}) {
   const db = getDb();
-  const conditions = [];
-  const params = {};
-
-  if (country) {
-    conditions.push("country = @country");
-    params.country = country;
-  }
-
-  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+  const { clause, params } = buildWhereClause({ country });
 
   return db
     .prepare(
       `SELECT department, ROUND(AVG(salary)) as averageSalary, currency
-      FROM employees ${whereClause}
+      FROM employees ${clause}
       GROUP BY department
       ORDER BY averageSalary DESC`
     )
@@ -180,20 +165,12 @@ function getAverageSalaryByDepartment({ country } = {}) {
 
 function getPayrollByDepartment({ country } = {}) {
   const db = getDb();
-  const conditions = [];
-  const params = {};
-
-  if (country) {
-    conditions.push("country = @country");
-    params.country = country;
-  }
-
-  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+  const { clause, params } = buildWhereClause({ country });
 
   return db
     .prepare(
       `SELECT department, SUM(salary) as totalPayroll, COUNT(*) as employeeCount, currency
-      FROM employees ${whereClause}
+      FROM employees ${clause}
       GROUP BY department
       ORDER BY totalPayroll DESC`
     )
