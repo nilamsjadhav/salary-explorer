@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import TabPanel from "./TabPanel";
+import TabPanel from "../../src/components/TabPanel";
 
 describe("TabPanel", () => {
   it("should render children when value matches index", () => {

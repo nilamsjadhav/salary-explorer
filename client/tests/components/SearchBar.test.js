@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import SearchBar from "./SearchBar";
+import SearchBar from "../../src/components/SearchBar";
 
 describe("SearchBar", () => {
   it("should render search input with placeholder", () => {

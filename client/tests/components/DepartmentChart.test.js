@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import DepartmentChart from "./DepartmentChart";
-import employeeService from "../services/employeeService";
+import DepartmentChart from "../../src/components/DepartmentChart";
+import employeeService from "../../src/services/employeeService";
 
-jest.mock("../services/employeeService");
+jest.mock("../../src/services/employeeService");
 
 // recharts uses ResizeObserver
 beforeAll(() => {

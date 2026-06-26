@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import FilterPanel from "./FilterPanel";
+import FilterPanel from "../../src/components/FilterPanel";
 
 describe("FilterPanel", () => {
   const defaultProps = {

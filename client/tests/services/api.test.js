@@ -1,4 +1,4 @@
-import api, { ApiError } from "./api";
+import api, { ApiError } from "../../src/services/api";
 
 const mockHeaders = {
   get: (key) => (key === "content-type" ? "application/json" : null),

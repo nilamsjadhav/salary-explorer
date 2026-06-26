@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import useApiData from "./useApiData";
+import useApiData from "../../src/hooks/useApiData";
 
 describe("useApiData", () => {
   it("should start with loading true and data null", () => {

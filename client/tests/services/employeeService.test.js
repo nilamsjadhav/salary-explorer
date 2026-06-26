@@ -1,7 +1,7 @@
-import employeeService from "./employeeService";
-import api from "./api";
+import employeeService from "../../src/services/employeeService";
+import api from "../../src/services/api";
 
-jest.mock("./api");
+jest.mock("../../src/services/api");
 
 describe("employeeService", () => {
   beforeEach(() => {

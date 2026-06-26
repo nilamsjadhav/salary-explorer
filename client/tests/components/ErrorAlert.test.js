@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ErrorAlert from "./ErrorAlert";
+import ErrorAlert from "../../src/components/ErrorAlert";
 
 describe("ErrorAlert", () => {
   it("should render the error message", () => {

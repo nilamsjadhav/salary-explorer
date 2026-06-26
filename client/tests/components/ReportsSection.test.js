@@ -1,8 +1,8 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import ReportsSection from "./ReportsSection";
-import employeeService from "../services/employeeService";
+import ReportsSection from "../../src/components/ReportsSection";
+import employeeService from "../../src/services/employeeService";
 
-jest.mock("../services/employeeService");
+jest.mock("../../src/services/employeeService");
 
 const mockReports = {
   top5HighestPaidEmployees: [

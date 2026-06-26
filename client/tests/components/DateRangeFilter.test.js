@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import DateRangeFilter from "./DateRangeFilter";
+import DateRangeFilter from "../../src/components/DateRangeFilter";
 
 describe("DateRangeFilter", () => {
   const defaultProps = {

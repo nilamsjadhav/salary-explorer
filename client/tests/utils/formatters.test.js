@@ -1,4 +1,4 @@
-import { formatSalary, formatDate } from "./formatters";
+import { formatSalary, formatDate } from "../../src/utils/formatters";
 
 describe("formatSalary", () => {
   it("should format INR salary", () => {

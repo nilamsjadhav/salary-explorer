@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "../../src/components/ErrorBoundary";
 
 const BrokenComponent = () => {
   throw new Error("Test crash");

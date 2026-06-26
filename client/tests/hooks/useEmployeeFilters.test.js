@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import useEmployeeFilters from "./useEmployeeFilters";
+import useEmployeeFilters from "../../src/hooks/useEmployeeFilters";
 
 describe("useEmployeeFilters", () => {
   it("should have correct initial state", () => {

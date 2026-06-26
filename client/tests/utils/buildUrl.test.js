@@ -1,4 +1,4 @@
-import { buildUrl } from "./buildUrl";
+import { buildUrl } from "../../src/utils/buildUrl";
 
 describe("buildUrl", () => {
   it("should return path without query when no params", () => {

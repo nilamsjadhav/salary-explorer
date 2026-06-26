@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { Table, TableBody } from "@mui/material";
-import EmployeeRow from "./EmployeeRow";
+import EmployeeRow from "../../src/components/EmployeeRow";
 
 const mockEmployee = {
   employeeId: "EMP001",

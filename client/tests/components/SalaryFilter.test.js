@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import SalaryFilter from "./SalaryFilter";
+import SalaryFilter from "../../src/components/SalaryFilter";
 
 describe("SalaryFilter", () => {
   const defaultProps = {

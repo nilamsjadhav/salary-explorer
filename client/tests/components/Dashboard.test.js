@@ -1,8 +1,8 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import Dashboard from "./Dashboard";
-import employeeService from "../services/employeeService";
+import Dashboard from "../../src/components/Dashboard";
+import employeeService from "../../src/services/employeeService";
 
-jest.mock("../services/employeeService");
+jest.mock("../../src/services/employeeService");
 
 beforeAll(() => {
   global.ResizeObserver = class {

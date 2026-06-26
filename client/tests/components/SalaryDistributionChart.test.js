@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import SalaryDistributionChart from "./SalaryDistributionChart";
-import employeeService from "../services/employeeService";
+import SalaryDistributionChart from "../../src/components/SalaryDistributionChart";
+import employeeService from "../../src/services/employeeService";
 
-jest.mock("../services/employeeService");
+jest.mock("../../src/services/employeeService");
 
 beforeAll(() => {
   global.ResizeObserver = class {
