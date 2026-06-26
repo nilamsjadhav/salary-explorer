@@ -21,13 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --roots '<rootDir>/src' '<rootDir>/tests' --testMatch '<rootDir>/tests/**/*.test.{js,jsx}' '<rootDir>/src/**/*.test.{js,jsx}'",
+    "lint": "eslint src/ tests/",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [

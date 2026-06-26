@@ -89,14 +89,11 @@ describe("api service", () => {
         text: () => Promise.resolve("Resource not found"),
       });
 
-      try {
-        await api.get("/api/unknown");
-      } catch (error) {
-        expect(error).toBeInstanceOf(ApiError);
-        expect(error.status).toBe(404);
-        expect(error.endpoint).toBe("/api/unknown");
-        expect(error.message).toBe("API error 404: Resource not found");
-      }
+      const error = await api.get("/api/unknown").catch((e) => e);
+      expect(error).toBeInstanceOf(ApiError);
+      expect(error.status).toBe(404);
+      expect(error.endpoint).toBe("/api/unknown");
+      expect(error.message).toBe("API error 404: Resource not found");
     });
 
     it("should throw ApiError with statusText when body is empty", async () => {

@@ -31,8 +31,8 @@ describe("SalaryDistributionChart", () => {
     render(<SalaryDistributionChart />);
     await waitFor(() => {
       expect(screen.getByText("Salary Distribution")).toBeInTheDocument();
-      expect(screen.getByLabelText("Currency")).toBeInTheDocument();
     });
+    expect(screen.getByLabelText("Currency")).toBeInTheDocument();
   });
 
   it("fetches data with default currency INR", async () => {

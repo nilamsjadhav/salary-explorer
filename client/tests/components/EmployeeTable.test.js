@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import EmployeeTable from "../../src/components/EmployeeTable";
 import employeeService from "../../src/services/employeeService";
 
@@ -93,9 +93,7 @@ describe("EmployeeTable", () => {
     employeeService.getAll.mockResolvedValue(filteredResponse);
 
     const searchInput = screen.getByPlaceholderText(/search/i);
-    await act(async () => {
-      fireEvent.change(searchInput, { target: { value: "Sarah" } });
-    });
+    fireEvent.change(searchInput, { target: { value: "Sarah" } });
 
     await waitFor(() => {
       expect(employeeService.getAll).toHaveBeenCalledWith(
@@ -114,11 +112,9 @@ describe("EmployeeTable", () => {
 
     employeeService.getAll.mockResolvedValue(mockResponse);
 
-    const fromLabel = screen.getByText("From Date");
-    const fromInput = fromLabel.closest("div").querySelector("input");
-    await act(async () => {
-      fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
-    });
+    // eslint-disable-next-line testing-library/no-node-access
+    const fromInput = screen.getByText("From Date").parentElement.querySelector("input");
+    fireEvent.change(fromInput, { target: { value: "2022-01-01" } });
 
     await waitFor(() => {
       expect(employeeService.getAll).toHaveBeenCalledWith(

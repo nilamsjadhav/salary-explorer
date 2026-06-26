@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Dashboard from "../../src/components/Dashboard";
 import employeeService from "../../src/services/employeeService";
 
@@ -48,10 +48,10 @@ describe("Dashboard", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Average Salary/)).toBeInTheDocument();
-      expect(screen.getByText(/Highest Salary/)).toBeInTheDocument();
-      expect(screen.getByText(/Lowest Salary/)).toBeInTheDocument();
-      expect(screen.getByText(/Total Payroll/)).toBeInTheDocument();
     });
+    expect(screen.getByText(/Highest Salary/)).toBeInTheDocument();
+    expect(screen.getByText(/Lowest Salary/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Total Payroll/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("should show currency selector with INR as default", async () => {

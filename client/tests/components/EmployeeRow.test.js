@@ -37,8 +37,9 @@ describe("EmployeeRow", () => {
 
   it("should render department as a chip", () => {
     renderRow();
-    const chip = screen.getByText("Engineering").closest(".MuiChip-root");
-    expect(chip).toBeInTheDocument();
+    const dept = screen.getByText("Engineering");
+    expect(dept).toBeInTheDocument();
+    expect(dept.className).toMatch(/MuiChip/);
   });
 
   it("should render designation", () => {

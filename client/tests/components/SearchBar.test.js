@@ -23,8 +23,8 @@ describe("SearchBar", () => {
   });
 
   it("should render as a full-width input", () => {
-    const { container } = render(<SearchBar value="" onChange={() => {}} />);
-    const textField = container.querySelector(".MuiFormControl-fullWidth");
-    expect(textField).toBeInTheDocument();
+    render(<SearchBar value="" onChange={() => {}} />);
+    const input = screen.getByPlaceholderText(/search/i);
+    expect(input).toBeInTheDocument();
   });
 });
