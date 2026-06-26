@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Box, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
+import { Box, Typography, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
 import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorAlert from "./ErrorAlert";
 import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
 import DepartmentChart from "./DepartmentChart";
@@ -17,19 +19,11 @@ const Dashboard = () => {
   );
 
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return (
-      <Alert severity="error" sx={{ m: 2 }}>
-        Failed to load dashboard: {error}
-      </Alert>
-    );
+    return <ErrorAlert message={`Failed to load dashboard: ${error}`} />;
   }
 
   return (

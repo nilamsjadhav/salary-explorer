@@ -7,8 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  CircularProgress,
-  Alert,
   Box,
   Typography,
   Divider,
@@ -16,6 +14,8 @@ import {
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import employeeService from "../middleware/employeeService";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorAlert from "./ErrorAlert";
 import SearchBar from "./SearchBar";
 import DateRangeFilter from "./DateRangeFilter";
 import SalaryFilter from "./SalaryFilter";
@@ -82,19 +82,11 @@ const EmployeeTable = () => {
   }, [fetchEmployees]);
 
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return (
-      <Alert severity="error" sx={{ m: 2 }}>
-        Failed to load employees: {error}
-      </Alert>
-    );
+    return <ErrorAlert message={`Failed to load employees: ${error}`} />;
   }
 
   const handleCurrencyChange = (value) => {

@@ -2,8 +2,6 @@ import { useState } from "react";
 import {
   Box,
   Typography,
-  CircularProgress,
-  Alert,
   TextField,
   MenuItem,
   Table,
@@ -17,6 +15,8 @@ import {
 } from "@mui/material";
 import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorAlert from "./ErrorAlert";
 
 const headerRowSx = { backgroundColor: "primary.main" };
 const headerCellSx = { color: "white", fontWeight: "bold" };
@@ -48,19 +48,11 @@ const ReportsSection = () => {
   );
 
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return (
-      <Alert severity="error" sx={{ m: 2 }}>
-        Failed to load reports: {error}
-      </Alert>
-    );
+    return <ErrorAlert message={`Failed to load reports: ${error}`} />;
   }
 
   const { top5HighestPaidEmployees = [], averageSalaryByDepartment = [], payrollByDepartment = [] } = reports || {};

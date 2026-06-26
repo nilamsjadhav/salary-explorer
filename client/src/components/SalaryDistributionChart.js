@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Box, CircularProgress, Alert, Paper, Typography, TextField, MenuItem } from "@mui/material";
+import { Box, CircularProgress, Paper, Typography, TextField, MenuItem } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
 import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
+import ErrorAlert from "./ErrorAlert";
 import { CURRENCIES } from "../constants/currencies";
 
 const COLORS = ["#1976d2", "#388e3c", "#f57c00", "#d32f2f"];
@@ -38,7 +39,7 @@ const SalaryDistributionChart = () => {
         </Box>
       )}
 
-      {error && <Alert severity="error">Failed to load salary data: {error}</Alert>}
+      {error && <ErrorAlert message={`Failed to load salary data: ${error}`} />}
 
       {!loading && !error && (
         <ResponsiveContainer width="100%" height={260}>

@@ -1,7 +1,9 @@
-import { Box, CircularProgress, Alert, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
 import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorAlert from "./ErrorAlert";
 
 const COLORS = ["#1976d2", "#388e3c", "#f57c00", "#d32f2f", "#7b1fa2", "#0097a7", "#c2185b", "#512da8", "#00695c", "#ef6c00", "#283593", "#4e342e", "#546e7a"];
 
@@ -9,15 +11,11 @@ const DepartmentChart = () => {
   const { data, loading, error } = useApiData(() => employeeService.getDepartments(), []);
 
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <Alert severity="error">Failed to load department data: {error}</Alert>;
+    return <ErrorAlert message={`Failed to load department data: ${error}`} />;
   }
 
   return (

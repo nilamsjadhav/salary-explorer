@@ -1,7 +1,9 @@
-import { Box, CircularProgress, Alert, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import employeeService from "../middleware/employeeService";
 import useApiData from "../hooks/useApiData";
+import LoadingSpinner from "./LoadingSpinner";
+import ErrorAlert from "./ErrorAlert";
 
 const COLORS = ["#5c6bc0", "#66bb6a"];
 
@@ -9,15 +11,11 @@ const GenderChart = () => {
   const { data, loading, error } = useApiData(() => employeeService.getGenderDistribution(), []);
 
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" mt={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <Alert severity="error">Failed to load gender data: {error}</Alert>;
+    return <ErrorAlert message={`Failed to load gender data: ${error}`} />;
   }
 
   return (
