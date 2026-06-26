@@ -13,7 +13,7 @@ import {
   Paper,
   Grid,
 } from "@mui/material";
-import employeeService from "../middleware/employeeService";
+import employeeService from "../services/employeeService";
 import useApiData from "../hooks/useApiData";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";

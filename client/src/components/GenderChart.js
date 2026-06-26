@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import employeeService from "../middleware/employeeService";
+import employeeService from "../services/employeeService";
 import useApiData from "../hooks/useApiData";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";

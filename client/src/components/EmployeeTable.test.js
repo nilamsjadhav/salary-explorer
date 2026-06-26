@@ -1,8 +1,8 @@
 import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
 import EmployeeTable from "./EmployeeTable";
-import employeeService from "../middleware/employeeService";
+import employeeService from "../services/employeeService";
 
-jest.mock("../middleware/employeeService");
+jest.mock("../services/employeeService");
 
 const mockEmployees = [
   {

@@ -12,7 +12,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-describe("api middleware", () => {
+describe("api service", () => {
   describe("GET requests", () => {
     it("should call fetch with correct URL and method", async () => {
       global.fetch.mockResolvedValue({

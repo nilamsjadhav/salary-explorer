@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Grid, TextField, MenuItem, Chip, Paper } from "@mui/material";
-import employeeService from "../middleware/employeeService";
+import employeeService from "../services/employeeService";
 import useApiData from "../hooks/useApiData";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";

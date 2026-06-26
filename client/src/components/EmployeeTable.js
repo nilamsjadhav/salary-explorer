@@ -9,7 +9,7 @@ import {
   Paper,
   Box,
 } from "@mui/material";
-import employeeService from "../middleware/employeeService";
+import employeeService from "../services/employeeService";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";
 import FilterPanel from "./FilterPanel";
