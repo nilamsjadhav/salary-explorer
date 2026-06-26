@@ -8,19 +8,14 @@ import {
   TableRow,
   Paper,
   Box,
-  Typography,
-  Divider,
-  Stack,
 } from "@mui/material";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import employeeService from "../middleware/employeeService";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorAlert from "./ErrorAlert";
-import SearchBar from "./SearchBar";
-import DateRangeFilter from "./DateRangeFilter";
-import SalaryFilter from "./SalaryFilter";
+import FilterPanel from "./FilterPanel";
 import Pagination from "./Pagination";
 import EmployeeRow from "./EmployeeRow";
+import useEmployeeFilters from "../hooks/useEmployeeFilters";
 
 const headerCellSx = { color: "white", fontWeight: "bold" };
 
@@ -28,16 +23,14 @@ const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [minSalary, setMinSalary] = useState("");
-  const [maxSalary, setMaxSalary] = useState("");
-  const [currency, setCurrency] = useState("All");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
   const [totalRecords, setTotalRecords] = useState(0);
   const isInitialLoad = useRef(true);
+
+  const filters = useEmployeeFilters();
+  const {
+    searchTerm, fromDate, toDate, currency, minSalary, maxSalary,
+    page, pageSize, setPage, setPageSize,
+  } = filters;
 
   const fetchEmployees = useCallback(() => {
     if (isInitialLoad.current) {
@@ -89,78 +82,22 @@ const EmployeeTable = () => {
     return <ErrorAlert message={`Failed to load employees: ${error}`} />;
   }
 
-  const handleCurrencyChange = (value) => {
-    setCurrency(value);
-    setPage(1);
-    if (value === "All") {
-      setMinSalary("");
-      setMaxSalary("");
-    }
-  };
-
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
-  const handleFromDateChange = (value) => {
-    setFromDate(value);
-    setPage(1);
-  };
-
-  const handleToDateChange = (value) => {
-    setToDate(value);
-    setPage(1);
-  };
-
-  const handleMinSalaryChange = (value) => {
-    setMinSalary(value);
-    setPage(1);
-  };
-
-  const handleMaxSalaryChange = (value) => {
-    setMaxSalary(value);
-    setPage(1);
-  };
-
   return (
     <Box sx={{ p: 2, pt: 1 }}>
-      <Paper
-        elevation={1}
-        sx={{
-          p: 2,
-          mb: 2,
-          borderRadius: 2,
-          border: "1px solid",
-          borderColor: "divider",
-        }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
-          <FilterListIcon fontSize="small" color="primary" />
-          <Typography variant="subtitle2" color="primary" fontWeight={600}>
-            Search & Filters
-          </Typography>
-        </Stack>
-        <SearchBar value={searchTerm} onChange={handleSearchChange} />
-        <Divider sx={{ my: 1.5 }} />
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", alignItems: "center" }}>
-          <DateRangeFilter
-            fromDate={fromDate}
-            toDate={toDate}
-            onFromDateChange={handleFromDateChange}
-            onToDateChange={handleToDateChange}
-          />
-          <Divider orientation="vertical" flexItem />
-          <SalaryFilter
-            currency={currency}
-            minSalary={minSalary}
-            maxSalary={maxSalary}
-            onCurrencyChange={handleCurrencyChange}
-            onMinSalaryChange={handleMinSalaryChange}
-            onMaxSalaryChange={handleMaxSalaryChange}
-          />
-        </Box>
-      </Paper>
+      <FilterPanel
+        searchTerm={searchTerm}
+        fromDate={fromDate}
+        toDate={toDate}
+        currency={currency}
+        minSalary={minSalary}
+        maxSalary={maxSalary}
+        onSearchChange={filters.handleSearchChange}
+        onFromDateChange={filters.handleFromDateChange}
+        onToDateChange={filters.handleToDateChange}
+        onCurrencyChange={filters.handleCurrencyChange}
+        onMinSalaryChange={filters.handleMinSalaryChange}
+        onMaxSalaryChange={filters.handleMaxSalaryChange}
+      />
 
       <TableContainer component={Paper} elevation={3}>
         <Table sx={{ "& .MuiTableCell-root": { py: 1.5, px: 2.5 } }}>
