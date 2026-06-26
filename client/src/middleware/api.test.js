@@ -25,7 +25,7 @@ describe("api middleware", () => {
       await api.get("/api/employees");
 
       expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost:5000/api/employees",
+        "/api/employees",
         expect.objectContaining({ method: "GET" })
       );
     });
