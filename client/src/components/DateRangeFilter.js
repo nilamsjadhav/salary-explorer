@@ -2,7 +2,7 @@ import { Box, TextField } from "@mui/material";
 
 const DateRangeFilter = ({ fromDate, toDate, onFromDateChange, onToDateChange }) => {
   return (
-    <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+    <Box sx={{ display: "flex", gap: 2 }}>
       <TextField
         label="From Date"
         type="date"

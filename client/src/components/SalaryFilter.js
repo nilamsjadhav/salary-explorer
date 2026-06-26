@@ -3,7 +3,7 @@ import { CURRENCY_VALUES } from "../constants/currencies";
 
 const SalaryFilter = ({ currency, minSalary, maxSalary, onCurrencyChange, onMinSalaryChange, onMaxSalaryChange }) => {
   return (
-    <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
+    <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
       <TextField
         select
         label="Currency"
