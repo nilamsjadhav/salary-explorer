@@ -1,4 +1,5 @@
 import TabLayout from './components/TabLayout';
+import ErrorBoundary from './components/ErrorBoundary';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 function App() {
@@ -9,7 +10,9 @@ function App() {
           <Typography variant="h6">Salary Explorer</Typography>
         </Toolbar>
       </AppBar>
-      <TabLayout />
+      <ErrorBoundary>
+        <TabLayout />
+      </ErrorBoundary>
     </div>
   );
 }
