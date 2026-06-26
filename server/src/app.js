@@ -26,7 +26,7 @@ function createApp() {
         }),
         res: (res) => ({
           statusCode: res.statusCode,
-          headers: res.getHeaders(),
+          headers: res.headers || {},
         }),
       },
     })
