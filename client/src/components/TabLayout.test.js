@@ -47,7 +47,7 @@ describe("TabLayout", () => {
     render(<TabLayout />);
     fireEvent.click(screen.getByText("Dashboard"));
     await waitFor(() => {
-      expect(screen.getByText("Average Salary")).toBeInTheDocument();
+      expect(screen.getByText(/Average Salary/)).toBeInTheDocument();
     });
   });
 

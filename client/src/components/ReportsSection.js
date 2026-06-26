@@ -14,7 +14,11 @@ import {
   TableRow,
   Paper,
   Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import employeeService from "../middleware/employeeService";
 
 const headerRowSx = { backgroundColor: "primary.main" };
@@ -79,25 +83,31 @@ const ReportsSection = () => {
   const { top5HighestPaidEmployees = [], averageSalaryByDepartment = [], payrollByDepartment = [] } = reports || {};
 
   return (
-    <Box>
-      <Box sx={{ mb: 3 }}>
-        <TextField
-          select
-          label="Country"
-          size="small"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          sx={{ width: 200 }}
-        >
-          {COUNTRIES.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
+    <Accordion defaultExpanded={false}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          Reports &amp; Analytics
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box sx={{ mb: 1.5 }}>
+          <TextField
+            select
+            label="Country"
+            size="small"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            sx={{ width: 200 }}
+          >
+            {COUNTRIES.map((c) => (
+              <MenuItem key={c} value={c}>
+                {c}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
 
-      <Grid container spacing={3}>
+        <Grid container spacing={2}>
         {/* Top 5 Highest Paid Employees */}
         <Grid item xs={12}>
           <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1 }}>
@@ -205,7 +215,8 @@ const ReportsSection = () => {
           </TableContainer>
         </Grid>
       </Grid>
-    </Box>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, MenuItem } from "@mui/material";
+import { Box, Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, MenuItem, Chip, Stack } from "@mui/material";
 import employeeService from "../middleware/employeeService";
 import { formatSalary } from "../utils/formatters";
 import { CURRENCIES, STAT_CARDS } from "../constants/currencies";
@@ -46,19 +46,32 @@ const Dashboard = () => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-        KPI Cards
-      </Typography>
-
-      <Box sx={{ mb: 3 }}>
+    <Box sx={{ p: 2 }}>
+      {/* KPI Strip */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, flexWrap: "wrap" }}>
+        <Stack direction="row" spacing={1} sx={{ flexGrow: 1, flexWrap: "wrap", gap: 1 }}>
+          {STAT_CARDS.map(({ key, label, color }) => (
+            <Chip
+              key={key}
+              label={`${label}: ${formatSalary(stats[key], currency)}`}
+              sx={{
+                backgroundColor: color,
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "0.85rem",
+                height: 36,
+                px: 1,
+              }}
+            />
+          ))}
+        </Stack>
         <TextField
           select
           label="Currency"
           size="small"
           value={currency}
           onChange={(e) => setCurrency(e.target.value)}
-          sx={{ width: 180 }}
+          sx={{ width: 150, flexShrink: 0 }}
         >
           {CURRENCIES.map((c) => (
             <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
@@ -66,28 +79,8 @@ const Dashboard = () => {
         </TextField>
       </Box>
 
-      <Grid container spacing={3}>
-        {STAT_CARDS.map(({ key, label, color }) => (
-          <Grid item xs={12} sm={6} md={3} key={key}>
-            <Card sx={{ borderTop: `4px solid ${color}` }}>
-              <CardContent>
-                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                  {label}
-                </Typography>
-                <Typography variant="h5" sx={{ fontWeight: "bold", color }}>
-                  {formatSalary(stats[key], currency)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Typography variant="h6" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
-        Charts
-      </Typography>
-
-      <Grid container spacing={3}>
+      {/* Charts — side by side */}
+      <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12}>
           <DepartmentChart />
         </Grid>
@@ -99,10 +92,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
 
-      <Typography variant="h6" sx={{ mt: 4, mb: 2, fontWeight: "bold" }}>
-        Reports &amp; Analytics
-      </Typography>
-
+      {/* Reports — collapsible accordion */}
       <ReportsSection />
     </Box>
   );

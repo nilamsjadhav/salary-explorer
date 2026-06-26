@@ -27,8 +27,8 @@ const SalaryDistributionChart = () => {
   }, [fetchData]);
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+    <Paper sx={{ p: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
         <Typography variant="h6">Salary Distribution</Typography>
         <TextField
           select
@@ -53,7 +53,7 @@ const SalaryDistributionChart = () => {
       {error && <Alert severity="error">Failed to load salary data: {error}</Alert>}
 
       {!loading && !error && (
-        <ResponsiveContainer width="100%" height={320}>
+        <ResponsiveContainer width="100%" height={260}>
           <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="salaryRange" />

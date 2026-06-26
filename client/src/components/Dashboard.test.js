@@ -47,10 +47,10 @@ describe("Dashboard", () => {
     render(<Dashboard />);
 
     await waitFor(() => {
-      expect(screen.getByText("Average Salary")).toBeInTheDocument();
-      expect(screen.getByText("Highest Salary")).toBeInTheDocument();
-      expect(screen.getByText("Lowest Salary")).toBeInTheDocument();
-      expect(screen.getByText("Total Payroll")).toBeInTheDocument();
+      expect(screen.getByText(/Average Salary/)).toBeInTheDocument();
+      expect(screen.getByText(/Highest Salary/)).toBeInTheDocument();
+      expect(screen.getByText(/Lowest Salary/)).toBeInTheDocument();
+      expect(screen.getByText(/Total Payroll/)).toBeInTheDocument();
     });
   });
 
